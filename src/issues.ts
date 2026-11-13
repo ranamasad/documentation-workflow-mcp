@@ -2,7 +2,7 @@ import { createCipheriv, createDecipheriv, createHmac, randomBytes, randomUUID, 
 import { z } from 'zod';
 import { canonical, DocumentationV3Error, v3Access, type V3Access } from './documentation-v3.js';
 import { applyFirestoreCommit, createFirestoreReader, createFirestoreWriter, serviceAccountTokens } from './firestore.js';
-import { documentationEncryptionRoot } from './managed-documentation.js';
+import { DATA_KEY_LABELS, documentationEncryptionRoot, projectDataKey } from './managed-documentation.js';
 
 // Issues and FAQ questions raised by readers of the documentation website (support, testers, product owners).
 //   documentationV3Issues/{projectId}/issues/{id}   one issue, AES-GCM sealed with the documentation encryption key
@@ -162,13 +162,13 @@ const safeFileName = (name: string) => name.replace(/[\\/\u0000-\u001f\u007f]/g,
 const parentPath = (projectId: string) => 'documentationV3Issues/' + projectId;
 const pathOf = (projectId: string, id: string) => parentPath(projectId) + '/issues/' + id;
 function key(root: Buffer, projectId: string) {
-  return createHmac('sha256', root).update('documentation-v3-issues-key\0' + canonical({ projectId })).digest();
+  return projectDataKey(root, DATA_KEY_LABELS.issues, { projectId });
 }
 const partPath = (projectId: string, id: string, attachment: string, part: number) => pathOf(projectId, id) + '/attachmentParts/' + attachment + '.' + part;
 const partPathsOf = (projectId: string, issue: Issue) => (issue.attachments ?? []).flatMap(item =>
   Array.from({ length: item.parts }, (_, part) => partPath(projectId, issue.id, item.id, part)));
 function partKey(root: Buffer, projectId: string) {
-  return createHmac('sha256', root).update('documentation-v3-issue-attachments-key\0' + canonical({ projectId })).digest();
+  return projectDataKey(root, DATA_KEY_LABELS['issue-attachments'], { projectId });
 }
 const partEnvelope = z.strictObject({ format: z.literal('3'), projectId: z.uuid(), kind: z.literal('issue-attachment'), sealed: z.string().min(1).max(1_000_000) });
 function sealPart(root: Buffer, projectId: string, path: string, bytes: Buffer): SealedPart {
@@ -1040,3 +1040,16 @@ export function createIssues(options: IssueOptions) {
 
   return { reader, member, counts, ofReader, cleanClosedFiles };
 }
+
+/**
+ * Re-key one stored issue (or attachment part) when a project moves: open it with the key in force now (an imported
+ * key, while it is registered), and seal it again with `root` after the imported key is forgotten.
+ */
+export const issueRecords = {
+  collection: (projectId: string) => parentPath(projectId) + '/issues',
+  parts: (projectId: string, issueId: string) => pathOf(projectId, issueId) + '/attachmentParts',
+  open: (root: Buffer, projectId: string, path: string, data: unknown) => decrypt(root, projectId, path, data),
+  seal: (root: Buffer, projectId: string, path: string, issue: Issue) => encrypt(root, projectId, path, issue),
+  openPart: (root: Buffer, projectId: string, path: string, data: unknown) => openPart(root, projectId, path, data),
+  sealPart: (root: Buffer, projectId: string, path: string, bytes: Buffer) => sealPart(root, projectId, path, bytes)
+};

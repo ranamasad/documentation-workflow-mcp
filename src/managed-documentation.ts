@@ -63,8 +63,51 @@ export function registerImportedKeys(projectId: string, keys: Record<string, str
   for (const [keyId, key] of entries) known.set(keyId, key);
   importedKeys.set(projectId, known);
 }
-export function forgetImportedKeys(projectId: string): void { importedKeys.delete(projectId); }
+export function forgetImportedKeys(projectId: string): void { importedKeys.delete(projectId); importedDataKeys.delete(projectId); }
 const importedKey = (scope: V3Scope) => importedKeys.get(scope.projectId)?.get(scope.keyId);
+
+/**
+ * Per-project keys for the project's other encrypted data: issues, issue attachments, reader telemetry (per environment
+ * and kind) and the profile cache. Each is derived from the master key with its own label, so each must travel on its own
+ * when a project moves. An imported key replaces the derived one for that project only.
+ */
+export const DATA_KEY_LABELS = {
+  issues: 'documentation-v3-issues-key',
+  'issue-attachments': 'documentation-v3-issue-attachments-key',
+  telemetry: 'documentation-v3-telemetry-key',
+  profile: 'documentation-v3-profile-key'
+} as const;
+export type DataKeyPurpose = keyof typeof DATA_KEY_LABELS;
+export interface DataKey { purpose: DataKeyPurpose; environment?: Environment | undefined; kind?: 'visit' | 'vote' | undefined; key: string }
+const importedDataKeys = new Map<string, Map<string, Buffer>>();
+const dataScope = (projectId: string, purpose: DataKeyPurpose, environment?: string, kind?: string) =>
+  purpose === 'telemetry' ? { projectId, environment, kind } : { projectId };
+const dataKeyId = (label: string, scope: Record<string, unknown>) => label + '\0' + canonical(scope);
+/** The key for one kind of project data: imported for a moved project, otherwise derived from this server's master key. */
+export function projectDataKey(root: Buffer, label: string, scope: Record<string, unknown> & { projectId: string }): Buffer {
+  return importedDataKeys.get(scope.projectId)?.get(dataKeyId(label, scope))
+    ?? createHmac('sha256', root).update(label + '\0' + canonical(scope)).digest();
+}
+export function registerImportedDataKeys(projectId: string, keys: DataKey[]): void {
+  const known = importedDataKeys.get(projectId) ?? new Map<string, Buffer>();
+  for (const entry of keys) {
+    if (!IMPORTED_KEY.test(entry.key) || !(entry.purpose in DATA_KEY_LABELS)) throw new Error('Imported data keys need a known purpose and a 43-character base64url key.');
+    if (entry.purpose === 'telemetry' && (!entry.environment || !entry.kind)) throw new Error('Telemetry keys need an environment and a kind.');
+    known.set(dataKeyId(DATA_KEY_LABELS[entry.purpose], dataScope(projectId, entry.purpose, entry.environment, entry.kind)), Buffer.from(entry.key, 'base64url'));
+  }
+  importedDataKeys.set(projectId, known);
+}
+export function forgetImportedDataKeys(projectId: string): void { importedDataKeys.delete(projectId); }
+/** Every data key of one project, for moving it to another server. The master key itself never leaves. */
+export function exportDataKeys(projectId: string, environments: readonly Environment[], masterKey?: string): DataKey[] {
+  const root = documentationEncryptionRoot(masterKey);
+  const one = (purpose: DataKeyPurpose, environment?: Environment, kind?: 'visit' | 'vote'): DataKey => ({
+    purpose, ...(environment ? { environment } : {}), ...(kind ? { kind } : {}),
+    key: projectDataKey(root, DATA_KEY_LABELS[purpose], dataScope(projectId, purpose, environment, kind)).toString('base64url')
+  });
+  return [one('issues'), one('issue-attachments'), one('profile'),
+    ...environments.flatMap(environment => (['visit', 'vote'] as const).map(kind => one('telemetry', environment, kind)))];
+}
 
 export function documentationEncryptionRoot(masterKey?: string) {
   const text = masterKey ?? readDocumentationEncryptionKey();

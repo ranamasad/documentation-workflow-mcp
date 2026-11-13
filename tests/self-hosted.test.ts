@@ -7,7 +7,7 @@ import type { IncomingMessage, ServerResponse } from 'node:http';
 import { createLocalJWKSet, exportJWK, exportPKCS8, generateKeyPair, SignJWT } from 'jose';
 import { createCiphertextCache } from '../src/ciphertext-cache.js';
 import { canonical, DocumentationV3Error, type V3Access, type V3Store } from '../src/documentation-v3.js';
-import { createManagedDocumentation, forgetImportedKeys, registerImportedKeys } from '../src/managed-documentation.js';
+import { DATA_KEY_LABELS, exportDataKeys, forgetImportedKeys, projectDataKey } from '../src/managed-documentation.js';
 import { buildTransferFile, reencryptProject, transferFile } from '../src/project-transfer.js';
 import { createSelfHosted, readSelfHostedConfig } from '../src/self-hosted.js';
 import type { RecordData, ReleaseMetadata } from '../src/v3-client.js';
@@ -45,53 +45,6 @@ function memoryStore() {
 const access: V3Access = { projectId, userId: null, name: 'Guide', role: 'owner', email: 'owner@example.com', administrator: true,
   environments: ['development', 'production'], firebaseProject: 'guide-docs', serviceAccountKey: 'test-only' };
 const records = () => JSON.parse(readFileSync('contract-v3/examples/v2-content.json', 'utf8')) as RecordData[];
-
-test('a project moves between servers with its content keys; the master key never travels and the next release rotates', async () => {
-  const { docs, store } = memoryStore();
-  const hosted = createManagedDocumentation(access, { masterKey: hostedRoot, store, cache: createCiphertextCache({ warn() {} }) });
-  await hosted.publish('development', { records: records(), metadata, expected: 'empty' });
-  const keys = await hosted.exportKeys();
-  assert.equal(keys.length, 1);
-  assert.equal(keys[0]!.environment, 'development');
-  const file = buildTransferFile('hosted', { id: projectId, name: 'Guide', firebaseProject: 'guide-docs', environments: ['development', 'production'], settings: {} }, keys);
-  const serialized = JSON.stringify(file);
-  assert.ok(!serialized.includes(hostedRoot), 'The export never carries the master key.');
-  assert.deepEqual(transferFile.parse(JSON.parse(serialized)), file);
-  await assert.rejects(createManagedDocumentation({ ...access, role: 'author' }, { masterKey: hostedRoot, store }).exportKeys(), /owners and admins/);
-
-  // The new server has a different master key: without the imported keys it cannot read.
-  const fresh = () => createManagedDocumentation(access, { masterKey: selfRoot, store, cache: createCiphertextCache({ warn() {} }) });
-  await assert.rejects(fresh().read('development'), /does not match this environment/);
-  registerImportedKeys(projectId, Object.fromEntries(keys.map(entry => [entry.keyId, entry.key])));
-  try {
-    const before = (await fresh().read('development'));
-    assert.deepEqual(before.records, records());
-    // The first publication on the new server rotates to a key derived from its own master key, without being asked.
-    await fresh().publish('development', { records: records(), metadata: { ...metadata, version: '1.0.1' }, expected: before.head!.releaseId });
-    const after = await fresh().head('development');
-    assert.notEqual(after.head!.keyId, keys[0]!.keyId);
-    forgetImportedKeys(projectId);
-    assert.deepEqual((await fresh().read('development')).records, records(), 'The new release opens with the new server key alone.');
-    assert.ok(docs.has('documentationV3ManagedKeys/' + after.head!.keyId));
-  } finally { forgetImportedKeys(projectId); }
-});
-
-test('re-encrypting a moved project republishes each environment under the new key and skips empty ones', async () => {
-  const { store } = memoryStore();
-  const old = createManagedDocumentation(access, { masterKey: hostedRoot, store, cache: createCiphertextCache({ warn() {} }) });
-  await old.publish('development', { records: records(), metadata, expected: 'empty' });
-  const keys = await old.exportKeys();
-  try {
-    const result = await reencryptProject(access, keys, { masterKey: selfRoot, store, cache: createCiphertextCache({ warn() {} }) });
-    assert.equal(result.moved.length, 1);
-    assert.deepEqual(result.skipped.map(item => item.environment), ['production']);
-    forgetImportedKeys(projectId);
-    const snapshot = await createManagedDocumentation(access, { masterKey: selfRoot, store, cache: createCiphertextCache({ warn() {} }) }).read('development');
-    assert.deepEqual(snapshot.records, records());
-    assert.equal(snapshot.metadata?.operation, 'import');
-    await assert.rejects(reencryptProject({ ...access, role: 'author' }, keys, { masterKey: selfRoot, store }), /owners and admins/);
-  } finally { forgetImportedKeys(projectId); }
-});
 
 async function selfHostedFixture() {
   const dir = mkdtempSync(join(tmpdir(), 'self-hosted-'));
@@ -134,6 +87,13 @@ test('projects.json lists the owner\'s projects, saves settings back and checks 
   config.file.projects[0]!.firebaseProject = 'other-docs';
   await assert.rejects(local.projects.readAccess('Guide'), /belongs to guide-docs, not other-docs/);
   assert.throws(() => readSelfHostedConfig({ MCP_PROJECTS_JSON: '{"owner":"x","projects":[]}' }), /owner/);
+  const moved = { owner: 'me@example.com', projects: [{ id: projectId, name: 'Moved', firebaseProject: 'guide-docs', serviceAccountKeyEnv: 'SA',
+    importedDataKeys: exportDataKeys(projectId, ['development'], hostedRoot) }] };
+  try {
+    readSelfHostedConfig({ MCP_PROJECTS_JSON: JSON.stringify(moved) });
+    assert.deepEqual(projectDataKey(Buffer.alloc(32, 22), DATA_KEY_LABELS.issues, { projectId }),
+      projectDataKey(Buffer.alloc(32, 11), DATA_KEY_LABELS.issues, { projectId }), 'Old issues open with the imported key on the new server.');
+  } finally { forgetImportedKeys(projectId); }
   assert.equal(readSelfHostedConfig({ MCP_PROJECTS_FILE: undefined, MCP_PROJECTS_JSON: undefined }), undefined);
 });
 

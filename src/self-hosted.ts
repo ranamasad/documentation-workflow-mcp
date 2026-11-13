@@ -7,7 +7,8 @@ import { z } from 'zod';
 import type { DraftStore, NotesStore, ProjectStore, SavedProject } from './project-store.js';
 import { createFirestoreReader, serviceAccountKey, serviceAccountTokens } from './firestore.js';
 import { DocumentationV3Error, v3Access, type V3Access, type v3Request } from './documentation-v3.js';
-import { registerImportedKeys } from './managed-documentation.js';
+import { registerImportedDataKeys, registerImportedKeys } from './managed-documentation.js';
+import { transferDataKey } from './project-transfer.js';
 import { createIssues } from './issues.js';
 
 /**
@@ -33,7 +34,9 @@ export const projectEntry = z.strictObject({
     token: z.string().regex(/^dsite_[A-Za-z0-9_-]{43}$/),
     origins: z.array(z.string().url()).min(1).max(10)
   }).optional(),
-  importedKeys: z.record(z.uuid(), z.string().regex(/^[A-Za-z0-9_-]{43}$/)).default({})
+  importedKeys: z.record(z.uuid(), z.string().regex(/^[A-Za-z0-9_-]{43}$/)).default({}),
+  // Keys for issues, attachments and reader feedback written before the project moved here.
+  importedDataKeys: z.array(transferDataKey).max(20).default([])
 }).refine(project => project.serviceAccountKeyFile || project.serviceAccountKeyEnv, {
   message: 'Set serviceAccountKeyFile or serviceAccountKeyEnv for every project.'
 });
@@ -74,6 +77,7 @@ export function readSelfHostedConfig(env: NodeJS.ProcessEnv = process.env): Self
     if (ids.has(project.id)) throw new Error('Two projects share the ID ' + project.id + '.');
     ids.add(project.id);
     if (Object.keys(project.importedKeys).length) registerImportedKeys(project.id, project.importedKeys);
+    if (project.importedDataKeys.length) registerImportedDataKeys(project.id, project.importedDataKeys);
   }
   const base = inline ? process.cwd() : dirname(path);
   return { file: result.data, ...(inline ? {} : { path }), dataDir: resolve(base, env.MCP_DATA_DIR ?? '.mcp-data') };

@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { canonical, DocumentationV3Error, type V3Access } from './documentation-v3.js';
 import { applyFirestoreCommit, createFirestoreReader, createFirestoreWriter, serviceAccountTokens } from './firestore.js';
 import { readManagedTelemetry } from './managed-telemetry.js';
-import { documentationEncryptionRoot } from './managed-documentation.js';
+import { DATA_KEY_LABELS, documentationEncryptionRoot, projectDataKey } from './managed-documentation.js';
 import { GEMINI_MODEL, logGeminiFailure, type Issue } from './issues.js';
 
 // A website reader's own totals and score (profile.stats). Everything is computed here from the encrypted telemetry and
@@ -139,7 +139,7 @@ export function geminiTitleWriter(fetcher: typeof fetch = fetch, model = GEMINI_
   };
 }
 const titlePath = (projectId: string, uid: string) => 'documentationV3Profiles/' + projectId + '/titles/' + createHash('sha256').update(uid).digest('hex');
-const titleKey = (root: Buffer, projectId: string) => createHmac('sha256', root).update('documentation-v3-profile-key\0' + canonical({ projectId })).digest();
+const titleKey = (root: Buffer, projectId: string) => projectDataKey(root, DATA_KEY_LABELS.profile, { projectId });
 function sealTitle(root: Buffer, projectId: string, path: string, value: SavedTitle): z.infer<typeof titleEnvelope> {
   const header = { format: '3' as const, projectId, kind: 'profile-title' as const };
   const iv = randomBytes(12);

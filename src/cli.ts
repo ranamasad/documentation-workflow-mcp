@@ -2,7 +2,7 @@ import { randomBytes, randomUUID } from 'node:crypto';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { createFirestoreWriter, serviceAccountKey, serviceAccountTokens, type FirestoreWrite } from './firestore.js';
-import { createManagedDocumentation, readDocumentationEncryptionKey } from './managed-documentation.js';
+import { createManagedDocumentation, exportDataKeys, readDocumentationEncryptionKey } from './managed-documentation.js';
 import { buildTransferFile, keyMap, reencryptProject, transferFile } from './project-transfer.js';
 import { projectEntry, readSelfHostedConfig, serviceAccountJson, writeProjectsFile, type ProjectEntry, type SelfHostedConfig } from './self-hosted.js';
 
@@ -196,11 +196,12 @@ window.DOCS_SITE_CONFIG = {
     const access = { projectId: entry.id, firebaseProject: entry.firebaseProject, serviceAccountKey: serviceAccountJson(cfg, entry),
       environments: entry.environments, role: 'owner' as const };
     const keys = masterKey ? await createManagedDocumentation(access, { masterKey }).exportKeys() : [];
+    const dataKeys = masterKey ? exportDataKeys(entry.id, entry.environments, masterKey) : [];
     const file = buildTransferFile('self-hosted', { id: entry.id, name: entry.name, firebaseProject: entry.firebaseProject,
-      environments: entry.environments, settings: entry.settings }, keys);
+      environments: entry.environments, settings: entry.settings }, keys, dataKeys);
     const out = resolve(option('out') ?? entry.name.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-export.json');
     writeFileSync(out, JSON.stringify(file, null, 2) + '\n', { mode: 0o600 });
-    console.log('Wrote ' + out + ' with ' + keys.length + ' content key(s). It opens this project\'s encrypted documentation: keep it private and delete it after the move.');
+    console.log('Wrote ' + out + ' with ' + keys.length + ' release key(s) and the keys for issues and reader feedback. It opens this project\'s encrypted documentation: keep it private and delete it after the move.');
     return;
   }
 
@@ -217,11 +218,12 @@ window.DOCS_SITE_CONFIG = {
     }
     const entry = projectEntry.parse({ id: file.project.id, name: file.project.name, firebaseProject: file.project.firebaseProject,
       environments: file.project.environments, settings: file.project.settings, serviceAccountKeyFile: keyPath, importedKeys: keyMap(file.keys),
+      importedDataKeys: file.dataKeys,
       ...(option('site') ? { site: { token: 'dsite_' + randomBytes(32).toString('base64url'),
         origins: [...new Set(option('site')!.split(',').map(origin => new URL(origin.trim()).origin))] } } : {}) });
     cfg.file.projects.push(entry);
     writeProjectsFile(cfg.path!, cfg.file);
-    console.log('Imported "' + entry.name + '" with ' + file.keys.length + ' content key(s).');
+    console.log('Imported "' + entry.name + '" with ' + file.keys.length + ' release key(s)' + (file.dataKeys.length ? ' and the keys for its issues and reader feedback' : '') + '.');
     if (flag('reencrypt') && file.keys.length) {
       const masterKey = readDocumentationEncryptionKey() ?? fail('Set MCP_DOCUMENTATION_ENCRYPTION_KEY in .env first.');
       const result = await reencryptProject({ projectId: entry.id, firebaseProject: entry.firebaseProject, serviceAccountKey: serviceAccountJson(cfg, entry),

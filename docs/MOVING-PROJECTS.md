@@ -10,6 +10,7 @@ You can move a project **from the hosted dashboard to your own server**, or **fr
 | Readers, teams and administrators | **Stay** in your Firebase (`teams`, `feedbackAccess`, `adminAccess`). |
 | Project name, ID and saved settings | Moves, in the move file. |
 | Content keys of your encrypted releases | Move, in the move file. |
+| Keys of your issues, issue attachments and reader feedback | Move, in the move file. Old issues and feedback stay readable. |
 | A server's master key | **Never moves.** Each server keeps its own. |
 
 ### Why keys can move safely
@@ -20,7 +21,7 @@ Your documentation is not encrypted with a server's master key directly. Each pr
 master key (stays on the server)  ──HMAC(project + environment + key ID)──▶  content key  ──encrypts──▶  your docs
 ```
 
-The move file carries only your project's content keys. They open your project and nothing else, and the master key cannot be worked out from them. After the move, the **first publication in each environment switches to a new key from the new server's own master key** automatically. You can also do that immediately (`--reencrypt` or the dashboard does it for you).
+Issues, attachments and reader feedback use their own per-project keys, made the same way. The move file carries only your project's keys. They open your project and nothing else, and the master key cannot be worked out from them. After the move, the **first publication in each environment switches to a new key from the new server's own master key** automatically. You can also do that immediately (`--reencrypt` or the dashboard does it for you).
 
 **Treat the move file like a password.** It opens your encrypted documentation. Delete it when the move is done.
 
@@ -62,7 +63,7 @@ The move file carries only your project's content keys. They open your project a
 3. Choose the **workspace**, upload `acme-docs-export.json` and the project's **service-account key**, and click **Import**. The dashboard:
    - creates the project with the **same project ID** (required by the encryption scopes);
    - reads your existing teams, readers and administrators from Firestore so nobody loses access;
-   - re-encrypts every environment with the hosted key.
+   - re-encrypts every environment, plus existing issues, attachments and reader feedback, with the hosted keys.
 4. **Point the reader website to the hosted service**: the dashboard's **Website** page deploys it for you, or shows the settings to use.
 5. **Point your AI to the hosted MCP** and sign in.
 6. **Clean up.** Remove the project from your `projects.json`, and delete the move file.

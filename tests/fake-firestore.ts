@@ -37,6 +37,8 @@ export function fakeFirestore(projectId: string) {
     if (docs.has(path)) return json(document(path));
     const listed = [...docs.keys()].filter(key => key.startsWith(path + '/') && !key.slice(path.length + 1).includes('/'));
     if (listed.length && !url.searchParams.has('transaction')) return json({ documents: listed.map(document) });
+    // Like Firestore: listing an empty collection (an odd number of path segments) answers with no documents, not 404.
+    if (path.split('/').length % 2 === 1 && !url.searchParams.has('transaction') && init?.method === undefined) return json({});
     return json({ error: { message: 'not found' } }, 404);
   };
   return { fetchFake, docs };

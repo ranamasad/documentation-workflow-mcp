@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { canonical, DocumentationV3Error, type V3Access, type v3Request } from './documentation-v3.js';
 import { applyFirestoreCommit, createFirestoreReader, serviceAccountTokens, type FirestoreWriter, type QueryDocument } from './firestore.js';
 import { createCiphertextCache } from './ciphertext-cache.js';
-import { createManagedDocumentation, documentationEncryptionRoot, type ManagedOptions } from './managed-documentation.js';
+import { createManagedDocumentation, DATA_KEY_LABELS, documentationEncryptionRoot, projectDataKey, type ManagedOptions } from './managed-documentation.js';
 import { feedbackTarget, visitEntry } from './telemetry-schema.js';
 
 const identity = { email: z.string().min(1).max(320), displayName: z.string().max(256), updatedAt: z.iso.datetime() };
@@ -34,8 +34,7 @@ function locator(projectId: string, value: Pick<Payload, 'kind' | 'uid' | 'envir
   return parentPath(projectId) + '/' + (value.kind === 'visit' ? 'visits' : 'votes') + '/' + id;
 }
 function key(root: Buffer, envelope: Pick<Encrypted, 'projectId' | 'environment' | 'kind'>) {
-  return createHmac('sha256', root).update('documentation-v3-telemetry-key\0' +
-    canonical({ projectId: envelope.projectId, environment: envelope.environment, kind: envelope.kind })).digest();
+  return projectDataKey(root, DATA_KEY_LABELS.telemetry, { projectId: envelope.projectId, environment: envelope.environment, kind: envelope.kind });
 }
 function encrypt(root: Buffer, projectId: string, path: string, value: Payload): Encrypted {
   const header = { format: '3' as const, projectId, environment: value.environment, kind: value.kind,
@@ -256,3 +255,10 @@ export async function readManagedTelemetry(projectId: string, writer: FirestoreW
     profiles, truncated: visits!.truncated || votes!.truncated
   };
 }
+
+/** Re-key stored reader telemetry when a project moves (see issueRecords in issues.ts). */
+export const telemetryRecords = {
+  collections: (projectId: string) => [parentPath(projectId) + '/visits', parentPath(projectId) + '/votes'],
+  open: (root: Buffer, projectId: string, path: string, data: unknown) => decrypt(root, projectId, path, data),
+  seal: (root: Buffer, projectId: string, path: string, value: ReturnType<typeof decrypt>) => encrypt(root, projectId, path, value)
+};
