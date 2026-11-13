@@ -1,0 +1,31 @@
+[
+  {
+    "key": "features/sample-feature", "page": "features", "collection": "features", "title": "View example status",
+    "data": {
+      "id": "sample-feature", "name": "View example status", "summary": "Read a generic service status.",
+      "who": "Authorized example readers", "apps": ["sample-app"], "services": ["sample-service"],
+      "what": {"simple": "Shows whether the example service is responding.", "tech": "Calls the documented read-only status endpoint."},
+      "where": "Open the example status screen.",
+      "steps": "1. Open the status screen.\n2. Read the status and observation time.",
+      "underneath": {"simple": "The screen requests the current status.", "tech": "A single read-only request returns JSON.", "diagram": "flowchart LR\n  Screen --> Service", "caption": "Example status request."},
+      "endpoints": ["sample-api"], "tables": ["sample-table"], "events": ["sample-event"], "config": ["sample-config"],
+      "json": [{"title": "Status response", "note": "Illustrative values only.", "example": {"id": "example-1", "status": "ready"}, "exampleTitle": "Example response", "fields": [["status", "string", true, "Reported service state", "ready", "Example service", "Not persisted"]]}],
+      "tablesNote": "Only example status records are read.",
+      "eventsNote": "An illustrative observation event may be recorded.",
+      "rules": [["Read-only access", "Example service authorization middleware"]],
+      "scenarios": {
+        "ok": [{"title": "Status available", "did": "Opened the screen.", "happens": "The request succeeds.", "sees": "Ready.", "support": "No action required.", "tech": {"path": "src/status-handler.ts", "status": 200, "logged": "Request metadata only.", "db": "Unchanged.", "json": {"status": "ready"}, "jsonTitle": "Response"}}],
+        "input": [], "access": [], "failure": [], "retry": [], "race": [], "unusual": [], "roles": []
+      },
+      "faq": [{"q": "Does refreshing change stored data?", "a": "No; the example request is read-only."}],
+      "troubleshooting": "Confirm connectivity and the observation time.",
+      "supportFix": "Retry once after restoring connectivity.",
+      "escalate": "Escalate repeated service errors with sanitized evidence.",
+      "configNote": "Only configuration names are documented.",
+      "dependsOn": [], "tests": "The status handler has a read-only response test.",
+      "issues": "Illustrative documentation; verify the deployed implementation.",
+      "confirm": ["Confirm the approved operational owner."],
+      "refs": [["src/status-handler.ts", "readStatus", "Returns the example status"]]
+    }
+  }
+]

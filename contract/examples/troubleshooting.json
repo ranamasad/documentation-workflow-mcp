@@ -1,0 +1,10 @@
+[
+  {
+    "key": "troubleshooting/sample-troubleshooting", "page": "troubleshooting", "collection": "troubleshooting", "title": "Check an unavailable example status",
+    "data": {
+      "id": "sample-troubleshooting", "title": "Check an unavailable example status", "group": "Connectivity",
+      "simple": "Confirm connectivity, then retry once.", "tech": "Record the response status and time; omit customer content and credentials.",
+      "related": ["sample-feature"]
+    }
+  }
+]

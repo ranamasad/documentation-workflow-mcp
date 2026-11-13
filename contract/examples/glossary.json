@@ -1,0 +1,9 @@
+[
+  {
+    "key": "glossary/sample-term", "page": "glossary", "collection": "glossary", "title": "Status observation",
+    "data": {
+      "id": "sample-term", "term": "Status observation",
+      "simple": "A report of the example service state at a point in time.", "tech": "Not a guarantee of later availability."
+    }
+  }
+]

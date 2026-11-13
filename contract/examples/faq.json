@@ -1,0 +1,9 @@
+[
+  {
+    "key": "faq/sample-faq", "page": "faq", "collection": "faq", "title": "Does checking status modify data?",
+    "data": {
+      "id": "sample-faq", "q": "Does checking status modify data?", "group": "Example status",
+      "a": "No; this illustrative operation is read-only.", "tech": "The endpoint performs no storage mutation."
+    }
+  }
+]

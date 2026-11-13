@@ -1,0 +1,110 @@
+[
+  {
+    "key": "foundation",
+    "page": "foundation",
+    "collection": "",
+    "title": "Overview, navigation and shared documentation",
+    "data": {
+      "meta": {
+        "appName": "Example Knowledge Base",
+        "subtitle": "Illustrative support and engineering guides",
+        "createdBy": "Documentation team",
+        "updatedBy": "Documentation team",
+        "updated": "2026-01-01"
+      },
+      "copy": {
+        "hero": "Understand the example system and find approved support checks.",
+        "features": "Guides to user-visible capabilities.",
+        "flows": "Follow a request through the system.",
+        "lookup": "Find the origin of a displayed field.",
+        "lookupCard": "Trace a field to its documented source.",
+        "flowCaption": "Illustrative request lifecycle.",
+        "layers": "Select a layer for its responsibilities.",
+        "folders": "Select a folder to read its purpose.",
+        "who": "Authorized example users",
+        "scenarioEmpty": "No documented scenario in this category.",
+        "rateLimits": "Confirm limits with the service owner; no assumed limit.",
+        "backendSimple": "Read-only backend investigation guidance.",
+        "backendTech": "Use approved local tools and least-privilege access.",
+        "backendScope": "Illustrative source evidence only.",
+        "services": "External service responsibilities and failure handling.",
+        "errors": "Match the exact displayed error message.",
+        "troubleshooting": "Start with non-destructive checks.",
+        "glossary": "Definitions used throughout these guides.",
+        "confirm": "Items that still require owner confirmation."
+      },
+      "home": {
+        "simple": "This generic example contains no customer information.",
+        "tech": "Articles are immutable JSON records selected by a release manifest.",
+        "quickLinks": [{"title": "Architecture", "desc": "Explore system boundaries.", "href": "#/architecture"}],
+        "stack": [{"area": "Example runtime", "name": "Node.js", "desc": "Runs the illustrative request handler."}],
+        "mainTasks": "- Find a guide.\n- Follow an approved read-only check."
+      },
+      "architecture": {
+        "simple": "A client requests information from an example service.",
+        "tech": "Presentation and service boundaries are separate.",
+        "simpleDiagram": "flowchart LR\n  Client --> Service",
+        "simpleDiagramCaption": "Example components.",
+        "impact": [{"part": "Example service", "effect": "The request cannot finish.", "escalate": true}],
+        "diagram": "flowchart LR\n  UI --> API\n  API --> Store",
+        "diagramCaption": "Illustrative technical architecture.",
+        "layers": [{
+          "name": "Presentation", "short": "Displays results", "desc": "Shows the response without owning storage.",
+          "folders": "`src/ui`", "mayCall": "The approved service interface.",
+          "mayNotCall": "The database directly.", "features": []
+        }],
+        "lifecycleText": "Validate a request, read the example store, and return a response.",
+        "lifecycle": "sequenceDiagram\n  Client->>Service: Request\n  Service-->>Client: Response",
+        "lifecycleCaption": "Example lifecycle.",
+        "deployment": "Use environment-specific configuration; never include credentials in documentation.",
+        "environments": [["Development", "Example config", "Not applicable", "Not applicable", "development", "example-local", "Development", "Internal"]],
+        "deployDiagram": "flowchart LR\n  Development --> Beta --> Production",
+        "deployCaption": "Illustrative environment progression.",
+        "tree": [{"name": "src", "desc": "Example application source.", "open": true, "children": [{"name": "ui", "desc": "Presentation components."}]}]
+      },
+      "roles": {
+        "simple": "Readers can view permitted documentation.",
+        "tech": "Publishing requires an authenticated authorized administrator.",
+        "sections": [{
+          "id": "permissions", "title": "Example permissions",
+          "simple": "Request access through the approved process.", "tech": "Authorization remains with the local system.",
+          "table": {"headers": ["Role", "Access"], "rows": [["Reader", "Permitted environment"], ["Publisher", "Approved release actions"]]}
+        }]
+      },
+      "dataSources": [{
+        "id": "sample-source", "name": "Example status", "aka": "Health indicator",
+        "simple": "A status returned by the example service.", "tech": "Read from the documented status response.",
+        "check": "Compare the time of the response before escalating."
+      }],
+      "confirm": [{"area": "Example deployment", "text": "Confirm the operational owner.", "why": "No organization-specific owner is included."}],
+      "applicationsIntro": "Applications and their responsibilities.",
+      "dataModel": {
+        "simple": "Example records hold only illustrative values.", "tech": "See the field definitions for storage types.",
+        "diagram": "erDiagram\n  SAMPLE {\n    string id PK\n  }", "diagramCaption": "Example entity."
+      },
+      "apiIntro": {"simple": "Example service interfaces.", "tech": "Request and response shapes are illustrative."},
+      "eventsIntro": {"simple": "Example background activity.", "tech": "Observe status without executing jobs."},
+      "notificationsIntro": {"simple": "Example user notifications.", "tech": "Payloads contain illustrative values only."},
+      "configIntro": {"simple": "Configuration names, not credentials.", "tech": "Never document secret values."},
+      "backend": {"services": [], "databases": [], "integrations": [], "runbooks": []},
+      "backendRepositoryFacts": [{"repository": "example-service", "commit": "illustrative-not-a-real-commit", "codeDate": "2026-01-01"}],
+      "navigation": {
+        "tabs": [
+          {"id": "home", "label": "Home", "overviewLabel": "Overview", "icon": "home", "href": "#/", "order": 0, "visible": true},
+          {"id": "architecture", "label": "Architecture", "overviewLabel": "Architecture overview", "icon": "layers", "href": "#/architecture", "order": 1, "visible": true},
+          {"id": "roles", "label": "Roles", "overviewLabel": "Access overview", "icon": "users", "href": "#/roles", "order": 2, "visible": true},
+          {"id": "flows", "label": "Flows", "overviewLabel": "Flow overview", "icon": "flow", "href": "#/flows", "order": 3, "visible": true},
+          {"id": "backend", "label": "Backend", "overviewLabel": "Backend overview", "icon": "database", "href": "#/backend", "order": 4, "visible": true}
+        ],
+        "groups": [],
+        "entries": [
+          {"id": "field-lookup", "tab": "flows", "group": "", "key": "foundation", "label": "Field lookup", "href": "#/flows/lookup", "order": 0, "visible": true, "searchable": true},
+          {"id": "backend-services", "tab": "backend", "group": "", "key": "foundation", "label": "Services", "href": "#/backend/services", "order": 0, "visible": true, "searchable": false},
+          {"id": "backend-databases", "tab": "backend", "group": "", "key": "foundation", "label": "Databases", "href": "#/backend/databases", "order": 1, "visible": true, "searchable": false},
+          {"id": "backend-integrations", "tab": "backend", "group": "", "key": "foundation", "label": "Integrations", "href": "#/backend/integrations", "order": 2, "visible": true, "searchable": false},
+          {"id": "backend-runbooks", "tab": "backend", "group": "", "key": "foundation", "label": "Runbooks", "href": "#/backend/runbooks", "order": 3, "visible": true, "searchable": false}
+        ]
+      }
+    }
+  }
+]

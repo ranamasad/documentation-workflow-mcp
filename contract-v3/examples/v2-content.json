@@ -1,0 +1,20 @@
+[
+  {
+    "key": "foundation",
+    "page": "foundation",
+    "collection": "",
+    "title": "Guide",
+    "data": {
+      "schemaVersion": 2,
+      "meta": {"appName": "Guide", "subtitle": "Test", "createdBy": "Tester", "updatedBy": "Tester", "updated": "2026-10-22"},
+      "icons": {"book": "https://api.iconify.design/lucide/book.svg"},
+      "startPage": "handbook",
+      "sections": [{"id": "handbook", "collection": "articles", "layout": "list", "sort": {"field": "title", "direction": "asc"}, "blocks": []}],
+      "navigation": {
+        "tabs": [{"id": "handbook", "label": "Handbook", "overviewLabel": "Overview", "icon": "book", "href": "#/", "order": 0, "visible": true}],
+        "groups": [],
+        "entries": []
+      }
+    }
+  }
+]

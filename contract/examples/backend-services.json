@@ -1,0 +1,18 @@
+[
+  {
+    "key": "backend/sample-backend-service", "page": "backend", "collection": "backend.services", "title": "Example backend status service",
+    "data": {
+      "id": "sample-backend-service", "name": "Example backend status service",
+      "simple": "Provides a generic read-only status.", "tech": "An illustrative handler with no customer data.",
+      "access": "Approved read-only access only.", "codeDate": "2026-01-01",
+      "steps": "1. Select the approved environment.\n2. Read service health metadata.\n3. Record sanitized observations.",
+      "files": "`src/status-handler.ts`", "engine": "Node.js", "environment": "`EXAMPLE_STATUS_ENABLED` (name only).",
+      "deployment": "Owner-approved example runtime.", "auth": "Example authorization middleware.",
+      "logging": "Sanitized request metadata.", "jobs": "No jobs required by this example.",
+      "identifiers": "`example-1` is an illustrative ID.", "lookup": "Read status through the approved interface.",
+      "columns": [["ExampleStatus.status", "string", "Reported illustrative state"]],
+      "mappings": [["status", "ExampleStatus.status", "Example handler response"]],
+      "normal": "Status is ready.", "abnormal": "Status is unavailable or stale.", "escalation": "Raise repeated failures with sanitized evidence."
+    }
+  }
+]

@@ -1,0 +1,103 @@
+{
+  "schema": 1,
+  "contractVersion": "2.0.0",
+  "contentFormats": {
+    "1": "Legacy fixed categories (features, apps, flows, api, errors, faq...). No longer accepted for new or updated documentation; accepted only as input to convert_documentation_to_v2. The v1 examples document that input.",
+    "2": "Dynamic sections: foundation data.schemaVersion 2 declares sections, logical collections, layouts, fields and an Iconify icon registry; articles are SECTION/ID records with a JSON value and optional safe blocks. A snapshot is entirely v1 or entirely v2. All new and updated documentation must use format 2."
+  },
+  "capabilities": "capabilities.json",
+  "storageSchema": 1,
+  "jsonSchemaDialect": "https://json-schema.org/draft/2020-12/schema",
+  "authority": "../vendor/documentation-model.js",
+  "schemaAuthority": "../vendor/documentation-schema.js",
+  "rendererAuthority": "../vendor/documentation-renderer.js",
+  "discoveryAuthority": "../vendor/documentation-discovery.js",
+  "publicationAuthority": "../vendor/documentation-engine.js",
+  "provenance": "../vendor/provenance.json",
+  "schemasNote": "These JSON Schemas describe the v1 legacy record shapes, accepted only as converter input. For v2 dynamic content, capabilities.json and schemaAuthority are authoritative; validate through validate_documentation.",
+  "schemas": {
+    "record": "record.schema.json",
+    "foundation": "foundation.schema.json",
+    "navigation": "navigation.schema.json",
+    "publicationEnvelope": "publication-envelope.schema.json",
+    "storage": "storage.schema.json",
+    "discovery": "discovery.schema.json"
+  },
+  "examples": {
+    "v2-catalog": "examples/v2-catalog.json",
+    "v2-handbook": "examples/v2-handbook.json",
+    "complete": "examples/complete.json",
+    "foundation": "examples/foundation.json",
+    "features": "examples/features.json",
+    "apps": "examples/apps.json",
+    "flows": "examples/flows.json",
+    "data-model": "examples/data-model.json",
+    "api": "examples/api.json",
+    "events": "examples/events.json",
+    "services": "examples/services.json",
+    "errors": "examples/errors.json",
+    "notifications": "examples/notifications.json",
+    "config": "examples/config.json",
+    "troubleshooting": "examples/troubleshooting.json",
+    "faq": "examples/faq.json",
+    "glossary": "examples/glossary.json",
+    "backend-services": "examples/backend-services.json",
+    "backend-databases": "examples/backend-databases.json",
+    "backend-integrations": "examples/backend-integrations.json",
+    "backend-runbooks": "examples/backend-runbooks.json"
+  },
+  "collections": {
+    "features": "features",
+    "apps": "applications",
+    "flows": "flows",
+    "data-model": "tables",
+    "api": "endpoints",
+    "events": "events",
+    "services": "externalServices",
+    "errors": "errors",
+    "notifications": "notifications",
+    "config": "config",
+    "troubleshooting": "troubleshooting",
+    "faq": "faq",
+    "glossary": "glossary",
+    "backend": [
+      "backend.services",
+      "backend.databases",
+      "backend.integrations",
+      "backend.runbooks"
+    ]
+  },
+  "environments": [
+    "development",
+    "beta",
+    "production"
+  ],
+  "tags": [
+    "Hotfix",
+    "New",
+    "Changed"
+  ],
+  "limits": {
+    "recordBytes": 700000,
+    "stringCharacters": 500000,
+    "jsonNodes": 100000,
+    "jsonDepth": 32,
+    "manifestRecords": 2000,
+    "idCharacters": 120,
+    "titleCharacters": 256,
+    "versionCharacters": 64,
+    "summaryCharacters": 4000,
+    "actorCharacters": 254,
+    "navigationTabs": 40,
+    "navigationGroups": 200,
+    "navigationEntries": 2500,
+    "discoveryShards": 100,
+    "discoveryRecordsPerShard": 40,
+    "discoveryShardBytes": 200000,
+    "discoveryShardTargetBytes": 180000,
+    "discoverySummaryCharacters": 320,
+    "discoveryTerms": 128,
+    "releaseManifestAndAreaChangesBytes": 900000
+  },
+  "privacy": "Assets contain only generic examples and renderer validation code. Hosted validation receives draft documentation only, never source code or credentials. Drafts are transmitted to Vercel and processed in request memory; the app does not intentionally persist or log payloads, but Vercel and AI-client retention policies apply. The server never writes to Firebase, publishes or stores drafts. Its account database holds token hashes, workspace memberships, project settings and, when an owner sets up read access, an encrypted read-only service-account key or members' encrypted Firebase sign-in tokens used to read published documentation live."
+}

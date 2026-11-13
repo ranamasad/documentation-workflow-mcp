@@ -1,0 +1,41 @@
+{
+  "release": {
+    "format": 3,
+    "scope": {
+      "environment": "development",
+      "keyId": "22222222-2222-4222-8222-222222222222",
+      "projectId": "11111111-1111-4111-8111-111111111111"
+    },
+    "manifest": {
+      "format": 3,
+      "scope": {
+        "environment": "development",
+        "keyId": "22222222-2222-4222-8222-222222222222",
+        "projectId": "11111111-1111-4111-8111-111111111111"
+      },
+      "iv": "mJvxGJgzAe8EEQbi",
+      "ciphertext": "_x2ilI6NQPKgdEnmSsKBpaloEEzkhpZ5g_LplTfbVszA7yvgfKwEtRY9MimMu2WxGw_UwOE5jqxkJFXtghfQWQdXXHjJTHAVgrZOd7lwhl1q4KqgM-uD0c9lwMRvZyWLiB1L_fybN-gMPLtgzQHuODCxf1t9_aU_Pee7vWXNnJO1QzZgyR-btKCGjFL2zy0UO0UxgD2z5W17S0KMcmr4JQih8Q",
+      "encoding": "gzip",
+      "plainBytes": 168
+    },
+    "bundles": ["0480fbbe2b185ba83ab5fbee7280fd6c4d262dcaff323030d10e83815bad77d3"],
+    "recordCount": 1
+  },
+  "bundles": [
+    {
+      "id": "0480fbbe2b185ba83ab5fbee7280fd6c4d262dcaff323030d10e83815bad77d3",
+      "data": {
+        "format": 3,
+        "scope": {
+          "environment": "development",
+          "keyId": "22222222-2222-4222-8222-222222222222",
+          "projectId": "11111111-1111-4111-8111-111111111111"
+        },
+        "iv": "Y1EZWWw6ti0hzVRt",
+        "ciphertext": "9_gbZWnzRDh4jRq30I6P9fw087AG9lJZOi1AnsK3ZEhe5GPkIpFexd6pCuwdYwu1_b3_AxZweA68naBDKg5WvSMlNWO1rwMeXtqI-8LRfjxbZ0NebH3IqWcdeWaNTC6FNxOR9tFD4MPhRV7lsNDrvTlfe8iv26GNlbkTzXXxmwcmXXlCFRyuOoCEru7svUuAD9Gv0Kn3bzNlRNMZnxfeVS6xarNqzE_6kF_R6zr4TwSBdG3p4V5KZQY3H1bVTcVtQ3HpMGHsY-vscanPGzVIkmLFiG-errJBFOfjYGTlvVGvKxI0ElA_V9LfTqrRTQyoKBU9fUpziwDVzMtzG-SG0rtdRacf585SI0suNhEZ3gs_m2gCjnP6fLI_DmtlppyRfxzvGYIANPTLKHKjCJruNsqtLxNfDY7QgWNP7tvany9E6H6QB11E4xi34NJTXdg9UK0NzCZLAE9bIKRzGl1OnROn",
+        "encoding": "gzip",
+        "plainBytes": 586
+      }
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "inputs": [
+    {
+      "id": "documentationWorkflowToken",
+      "type": "promptString",
+      "description": "Documentation workflow MCP bearer token",
+      "password": true
+    }
+  ],
+  "servers": {
+    "documentation-workflow": {
+      "type": "http",
+      "url": "https://YOUR-MCP-DOMAIN/mcp",
+      "headers": {
+        "Authorization": "Bearer ${input:documentationWorkflowToken}"
+      }
+    }
+  }
+}

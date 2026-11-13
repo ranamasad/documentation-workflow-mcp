@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "docs-contract://v3/bundle.schema.json",
+  "title": "Content-addressed encrypted bundle",
+  "description": "id = SHA-256(canonical(data)), lowercase hex. Decrypted plaintext is an array of unchanged v2 wire records. Each record must pass the existing DOCS_MODEL.record and be no larger than 700000 ASCII bytes after canonical serialization. Descriptor keys must equal the decrypted record keys, in order.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "data"],
+  "properties": {
+    "id": {"$ref": "release.schema.json#/$defs/hash"},
+    "data": {"$ref": "envelope.schema.json"}
+  }
+}

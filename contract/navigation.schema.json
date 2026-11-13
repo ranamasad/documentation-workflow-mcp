@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://documentation-mcp.example/contract/v1/navigation.schema.json",
+  "title": "Website navigation metadata v1",
+  "description": "Cross-item tab/group/route uniqueness, exact href/key identity and reserved routes are enforced by the vendored model.navigation().",
+  "type": "object",
+  "required": ["tabs", "groups", "entries"],
+  "additionalProperties": false,
+  "properties": {
+    "tabs": {
+      "type": "array", "maxItems": 40,
+      "items": {
+        "type": "object",
+        "required": ["id", "label", "overviewLabel", "icon", "href", "order", "visible"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "enum": ["home", "architecture", "roles", "backend", "features", "apps", "flows", "data-model", "api", "events", "services", "errors", "notifications", "config", "troubleshooting", "faq", "glossary"] },
+          "label": { "$ref": "#/$defs/label" },
+          "overviewLabel": { "$ref": "#/$defs/label" },
+          "icon": { "$ref": "#/$defs/icon" },
+          "href": { "type": "string", "pattern": "^#/(?:[a-z-]+)?$" },
+          "order": { "$ref": "#/$defs/order" },
+          "visible": { "type": "boolean" }
+        }
+      }
+    },
+    "groups": {
+      "type": "array", "maxItems": 200,
+      "items": {
+        "type": "object",
+        "required": ["id", "tab", "label", "icon", "order", "visible"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "$ref": "#/$defs/id" },
+          "tab": { "$ref": "#/$defs/id" },
+          "label": { "$ref": "#/$defs/label" },
+          "icon": { "$ref": "#/$defs/icon" },
+          "order": { "$ref": "#/$defs/order" },
+          "visible": { "type": "boolean" }
+        }
+      }
+    },
+    "entries": {
+      "type": "array", "maxItems": 2500,
+      "items": {
+        "type": "object",
+        "required": ["id", "tab", "group", "key", "label", "href", "order", "visible", "searchable"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "$ref": "#/$defs/id" },
+          "tab": { "$ref": "#/$defs/id" },
+          "group": { "type": "string", "pattern": "^(?:[a-zA-Z0-9_-]{1,120})?$" },
+          "key": { "type": "string", "pattern": "^(?:foundation|[a-z-]+/[a-zA-Z0-9_-]{1,120})$" },
+          "label": { "$ref": "#/$defs/label" },
+          "href": { "type": "string", "pattern": "^#/[a-z-]+/[a-zA-Z0-9_-]{1,120}$" },
+          "order": { "$ref": "#/$defs/order" },
+          "visible": { "type": "boolean" },
+          "searchable": { "type": "boolean" }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "id": { "type": "string", "pattern": "^[a-zA-Z0-9_-]{1,120}$" },
+    "label": { "type": "string", "minLength": 1, "maxLength": 256, "pattern": "\\S" },
+    "order": { "type": "integer", "minimum": -9007199254740991, "maximum": 9007199254740991 },
+    "icon": { "enum": ["home", "layers", "grid", "flow", "book", "database", "terminal", "clock", "globe", "users", "alert", "bell", "sliders", "tool", "help", "shield", "search", "arrow", "file", "info", "lock", "plane"] }
+  }
+}

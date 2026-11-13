@@ -1,0 +1,69 @@
+{
+  "format": 3,
+  "contentFormat": 2,
+  "operations": {
+    "model": "Server-managed encryption at rest with HTTPS delivery, not strict E2EE. Backend can read content on authorized operations. Hosted MCP tools and website require no local connector, vault enrollment, password, recovery code or grant.",
+    "rootKey": "Stable private backend MCP_DOCUMENTATION_ENCRYPTION_KEY: canonical unpadded base64url32bytes. Back up securely; root-key loss means data loss. Never send the server master key to the browser.",
+    "deployment": "docs-site 3.5.0 / MCP 0.4.0 require 202610220003_mcp_managed_documentation.sql after migration 002. Website Google users need no Supabase account or vault; the managed reader RPC authorizes verified email and current membership/team environment permissions.",
+    "key.get": "POST /api/documentation-v3 with environment and scope {projectId,environment,keyId}; returns {key:base64url32bytes} only after current head, exact scope, project membership and environment permission checks. Browser requests fresh head and key on every load/reload before reusing ciphertext.",
+    "snapshot.get": "Authenticated hosted authoring operation returns the complete authorized readable snapshot; backend and AI provider can read content used by hosted tools.",
+    "snapshot.publish": "Publish complete reviewed snapshot with required version, tags, summary, expected current release, confirmed:true and optional approveConversion after findings are reviewed.",
+    "guidedWorkflow": "Detect list_published_documentation.format, not just content schemaVersion. For legacy published format 1 or 2, offer encrypted v3 migration before updates/audits/promotions and wait for explicit owner/admin approval. V1 conversion findings require separate approval; a read-only request, installation or inspection never authorizes migration. New environments use publish_documentation with format:3 and expected:empty; missing root-key setup fails without plaintext fallback. Existing content schemaVersion:2, contract URIs and compatibility normalizers remain unchanged.",
+    "migration": "Hosted migrate_documentation_to_v3 takes confirmed:true, expected current legacy release UUID and approveConversion if findings need approval. Existing v2 remains supported. No automatic old plaintext deletion or old strict-E2EE decryption; 409 managed-key-missing requires explicit migration with original keys. No silent plaintext fallback.",
+    "compatibility": "Strict vault/grant crypto and APIs are retained for backward compatibility only, not normal managed-reader onboarding.",
+    "cache": "Ciphertext only in browser cache; scoped keys and decrypted records only in page memory. Authenticate/decrypt all records before ready/full search. Signout/lock invalidates key references. Backend two-hour ciphertext expiry is not automatic publication refresh.",
+    "telemetry": "Verified website readers send usage.put (1-20 visits), feedback.get and feedback.put through the authenticated MCP gateway. Backend binds UID to the Firebase token, encrypts identity, article metadata, timing and votes before Firebase or optional two-hour cache storage, and decrypts authorized owner/admin dashboard aggregates. Pending browser telemetry is memory-only, best effort; no plaintext persistent queue. No permission polling.",
+    "usage.put": "Website authentication {siteToken,idToken}; visits array length 1-20 with {id:UUID,uid,sessionId:UUID,route,title,openedAt:milliseconds,activeMs,elapsedMs,ended:boolean,endReason:empty|navigation|signout|pagehide|session-ended,nextRoute,environment,releaseId:UUID,documentationVersion}. UID must match verified token; activeMs <= elapsedMs; maximum seven days; ended requires endReason; navigation requires nextRoute. Returns {ok:true} after durable commit.",
+    "feedback.get": "Website authentication {siteToken,idToken}; target {environment,releaseId:UUID,key:encodeURIComponent(route),route,title,revisionId:SHA256}. Fresh own-vote read returns {helpful:null|boolean,updatedAt?:ISO8601}. Release/environment are authorized; article metadata is client-reported.",
+    "feedback.put": "Same target/authentication as feedback.get plus {helpful:boolean,changeId:UUID,changedAt:milliseconds}. Device clock must be within five minutes. UUID supports idempotent retry; older timestamp/UUID changes cannot overwrite newer votes. Returns authoritative {helpful:boolean,updatedAt:ISO8601,superseded?:true} after durable write/precondition verification."
+  },
+  "schemas": ["scope.schema.json", "envelope.schema.json", "release.schema.json", "bundle.schema.json", "manifest.schema.json", "vault.schema.json", "grant.schema.json", "snapshot.schema.json"],
+  "examples": ["examples/manifest.json", "examples/migration.json", "examples/v2-content.json", "examples/encrypted-snapshot.json"],
+  "existingContentContracts": {
+    "record": {"$ref": "docs-contract://v2/record.schema.json"},
+    "foundation": {"$ref": "docs-contract://v2/foundation.schema.json"},
+    "navigation": {"$ref": "docs-contract://v2/navigation.schema.json"},
+    "capabilities": "docs-contract://v2/capabilities.json",
+    "authoritativeRuntime": "../assets/js/documentation-model.js",
+    "note": "Content schemas are referenced, never forked here. The published record/foundation resources may still describe legacy fixed categories: dynamic v2 content must be checked with the existing DOCS_MODEL and DOCS_SCHEMA rather than constrained by a legacy-only schema."
+  },
+  "api": {
+    "canonical(value)": "string: recursively lexicographically sorted JSON keys, array order preserved, non-ASCII UTF-16 code units escaped as lowercase \\uXXXX, finite numbers only, no whitespace",
+    "hash(value)": "Promise<string>: SHA-256 of the UTF-8 string, lowercase hex",
+    "normalize(records)": "{records,report}: complete normalized v2 snapshot, converter report preserved for v1; v2 report uses the same format with empty warning/loss arrays",
+    "createVault(password)": "Promise<{vault,recoveryCode,privateKey}>",
+    "unlockVault(vault,secret,recovery=false)": "Promise<nonextractable RSA-OAEP SHA-256 CryptoKey>",
+    "changeVaultPassword(vault,secret,newPassword,recovery=false)": "Promise<vault>",
+    "createScopeKey()": "string: base64url 32 random bytes",
+    "wrapKey(scope,key,publicJwk)": "Promise<grant>",
+    "unwrapKey(scope,grant,privateKey)": "Promise<string>: base64url 32-byte key; use privateKey returned by createVault/unlockVault in this module instance",
+    "encryptSnapshot(records,scope,key,previous?,metadata?)": "Promise<{release,bundles}>: optional strictly validated release metadata is stored only inside encrypted manifest",
+    "decryptSnapshot(release,bundles,scope,key)": "Promise<records>: complete validated v2 snapshot in normalized input order",
+    "decryptSnapshotDetails(release,bundles,scope,key)": "Promise<{records,metadata}>: fully verified complete snapshot; metadata undefined for older snapshots",
+    "decryptManifest(release,scope,key)": "Promise<manifest>: authenticated manifest and metadata, descriptor/list/count validated; does not fetch, decrypt or validate bundle content",
+    "validateEnvelope(envelope,scope?)": "envelope; throws on invalid structure, scope, lengths or limits, does not authenticate or decompress",
+    "validateRelease(release,scope?)": "release; throws on invalid structure, scope, counts, duplicate IDs or envelope",
+    "validateVault(vault)": "vault; structural only, unlock verifies fingerprint and ciphertext",
+    "validateGrant(grant,scope?)": "grant; structural only, unwrap verifies recipient and ciphertext"
+  },
+  "wire": {
+    "base64url": "RFC4648 URL-safe, no padding, canonical zero trailing bits; reject oversized and invalid input before decoding",
+    "hash": "SHA-256(canonical(value)), lowercase hex",
+    "compression": "Web CompressionStream('gzip'); incremental DecompressionStream('gzip') bounded by authenticated plainBytes and cumulative snapshot limit",
+    "authentication": "AES-256-GCM with fresh random IV12, 128-bit appended authentication tag; AAD canonical({format:3,scope,encoding:'gzip',plainBytes})",
+    "ciphertextTrust": "Encrypted data is not trusted until authenticated, decompressed within bounds, parsed, hashes/key descriptors verified and complete existing v2 model validation succeeds. decryptManifest authenticates the manifest alone; only decryptSnapshot/decryptSnapshotDetails verifies the complete snapshot.",
+    "releaseMetadata": "Optional metadata {version,tags,summary,operation,sourceRelease?,rollbackRelease?} lives only inside the encrypted manifest. version is 1..64 safe ASCII version characters, tags unique 1..3 New/Changed/Hotfix, summary nonblank up to 4000 JavaScript UTF-16 code units, operation apply/promote/rollback/import, release IDs UUIDs. Previous manifests are never reused: passing new metadata always creates fresh authenticated notes, and omitting metadata creates a metadata-free backwards-compatible manifest.",
+    "grouping": "First two lowercase hex digits of SHA-256(article key), sorted bucket then lexicographic article key. Greedily pack canonical record arrays up to 700000 bytes, except a single 700000-byte record plus array delimiters. Changes affect their hash bucket, not all records.",
+    "reuse": "Fresh encryptions always get fresh IVs and normally different IDs. Optional previous snapshot is fully decrypted and validated under the exact same scope/key; identical canonical groups reuse exact envelopes and IDs. Manifest always reencrypted. No deduplication is claimed without verified reuse.",
+    "limits": {"serializedEnvelopeBytes": 950000, "recordAsciiBytes": 700000, "snapshotPlainBytesIncludingManifest": 33554432, "records": 2000, "pbkdf2IterationsMin": 600000, "pbkdf2IterationsMax": 2000000},
+    "security": "Crypto primitives use WebCrypto. AES keys and returned RSA private keys are nonextractable. Private JWKs exist transiently only for initial sealing, unlock and password reset and are never exposed or logged. Encrypted transport is not a substitute for server authorization, release CAS or scope/key rotation after access revocation.",
+    "runtime": "UMD CommonJS or browser DOCS_V3. Modern WebCrypto, CompressionStream, DecompressionStream, Blob, TextEncoder/TextDecoder and atob/btoa required. Vault/grant operations need no model/converter globals; content operations need DOCS_SCHEMA and DOCS_MODEL, and legacy normalization additionally needs DOCS_CONVERT."
+  },
+  "migration": {
+    "v1": "normalize detects the legacy foundation; calls existing DOCS_CONVERT.convert if present, otherwise existing convertSnapshot; preserves converter routes and reports, then validates complete v2 snapshot.",
+    "v2": "No content schema changes. Preserve all shared metadata, navigation, article values and blocks, including full searchable content. Validate complete bidirectional navigation using existing model before encrypting.",
+    "v3": "Only encrypted transport changes. Never relabel a legacy/v2 plaintext release as encrypted. Managed backend creates the scoped content key and encrypts complete normalized records; grants are legacy strict-vault compatibility only.",
+    "scopeIsolation": "Environment/project/keyId must match exactly. Promotion across environment or keyId requires decrypting and reencrypting for target scope; previous-envelope reuse across scopes is rejected.",
+    "approval": "Conversion reports and release review belong to callers; crypto methods never publish, silently drop warnings or authorize migration."
+  }
+}

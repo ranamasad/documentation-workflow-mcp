@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://documentation-mcp.example/contract/v1/storage.schema.json",
+  "title": "Storage document shapes v1",
+  "description": "Select $defs by storage path. Timestamps are native Firestore server timestamps, not JSON strings; JSON Schema cannot certify server transforms, permissions, atomicity, immutable IDs or transaction gate correctness.",
+  "$defs": {
+    "revision": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "releaseId": { "type": "string", "pattern": "^[a-f0-9-]{36}$" },
+    "optionalReleaseId": { "type": "string", "pattern": "^(?:[a-f0-9-]{36})?$" },
+    "environment": { "enum": ["development", "beta", "production"] },
+    "tags": { "type": "array", "minItems": 1, "maxItems": 3, "uniqueItems": true, "items": { "enum": ["Hotfix", "New", "Changed"] } },
+    "manifest": {
+      "description": "Parsed release.manifest. foundation required; model.manifest is authoritative.",
+      "type": "object", "minProperties": 1, "maxProperties": 2000,
+      "required": ["foundation"],
+      "propertyNames": { "pattern": "^(?:foundation|[a-z-]+/[a-zA-Z0-9_-]{1,120})$" },
+      "additionalProperties": { "$ref": "#/$defs/revision" }
+    },
+    "pointer": {
+      "description": "documentationEnvironments/{environment}. updatedAt must equal request.time when activated. The previously staged immutable release has its own server-created createdAt; the two timestamps need not match.",
+      "type": "object", "required": ["releaseId", "generation", "updatedAt"], "additionalProperties": false,
+      "properties": {
+        "releaseId": { "$ref": "#/$defs/releaseId" },
+        "generation": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
+        "updatedAt": { "description": "Native Firestore server timestamp; never a client clock.", "type": "object" }
+      }
+    },
+    "areaChange": {
+      "type": "object",
+      "required": ["before", "after", "version", "tags", "summary", "actor", "releaseId", "previousRelease"],
+      "additionalProperties": false,
+      "properties": {
+        "before": { "type": "string", "pattern": "^(?:[a-f0-9]{64})?$" },
+        "after": { "$ref": "#/$defs/revision" },
+        "version": { "type": "string", "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._-]{0,63}$" },
+        "tags": { "$ref": "#/$defs/tags" },
+        "summary": { "type": "string", "minLength": 1, "maxLength": 4000, "pattern": "\\S" },
+        "actor": { "type": "string", "minLength": 1, "maxLength": 254 },
+        "releaseId": { "$ref": "#/$defs/releaseId" },
+        "previousRelease": { "$ref": "#/$defs/optionalReleaseId" }
+      }
+    },
+    "areaChanges": { "type": "object", "additionalProperties": { "$ref": "#/$defs/areaChange" } },
+    "release": {
+      "description": "documentationReleases/{releaseId}. engine.release validates operation/source/base relationships; rules impose server timestamp and atomic publication gates.",
+      "type": "object",
+      "required": ["schema", "environment", "version", "tags", "summary", "actor", "base", "operation", "source", "sourceRelease", "rollbackRelease", "manifest", "createdAt"],
+      "additionalProperties": false,
+      "properties": {
+        "schema": { "const": 1 },
+        "environment": { "$ref": "#/$defs/environment" },
+        "version": { "type": "string", "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._-]{0,63}$" },
+        "tags": { "$ref": "#/$defs/tags" },
+        "summary": { "type": "string", "minLength": 1, "maxLength": 4000, "pattern": "\\S" },
+        "actor": { "type": "string", "minLength": 1, "maxLength": 254 },
+        "base": { "$ref": "#/$defs/optionalReleaseId" },
+        "operation": { "enum": ["import", "apply", "promote", "rollback"] },
+        "source": { "enum": ["", "development", "beta", "production"] },
+        "sourceRelease": { "$ref": "#/$defs/optionalReleaseId" },
+        "rollbackRelease": { "$ref": "#/$defs/optionalReleaseId" },
+        "manifest": { "type": "string", "contentMediaType": "application/json", "contentSchema": { "$ref": "#/$defs/manifest" } },
+        "areaChanges": { "type": "string", "contentMediaType": "application/json", "contentSchema": { "$ref": "#/$defs/areaChanges" } },
+        "createdAt": { "description": "Native Firestore server timestamp at immutable release creation.", "type": "object" }
+      }
+    }
+  },
+  "oneOf": [
+    { "$ref": "#/$defs/pointer" },
+    { "$ref": "#/$defs/release" },
+    { "$ref": "#/$defs/manifest" },
+    { "$ref": "publication-envelope.schema.json" }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://documentation-mcp.example/contract/v1/foundation.schema.json",
+  "title": "Foundation data v1 (record.data, not a complete wire record)",
+  "description": "The model permits additional shared fields. Navigation is optional for individual record validation, mandatory for publication. Renderer-oriented optional shapes are demonstrated in examples/foundation.json.",
+  "type": "object",
+  "required": ["meta", "copy", "architecture", "home", "roles", "dataSources", "confirm"],
+  "additionalProperties": true,
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": ["appName", "subtitle", "createdBy", "updatedBy", "updated"],
+      "additionalProperties": true,
+      "properties": {
+        "appName": { "type": "string" },
+        "subtitle": { "type": "string" },
+        "createdBy": { "type": "string" },
+        "updatedBy": { "type": "string" },
+        "updated": { "type": "string" }
+      }
+    },
+    "copy": {
+      "type": "object",
+      "required": ["hero", "features", "flows", "lookup", "lookupCard", "flowCaption", "layers", "folders", "who", "scenarioEmpty", "rateLimits", "backendSimple", "backendTech", "backendScope", "services", "errors", "troubleshooting", "glossary", "confirm"],
+      "additionalProperties": true,
+      "properties": {
+        "hero": { "type": "string" }, "features": { "type": "string" },
+        "flows": { "type": "string" }, "lookup": { "type": "string" },
+        "lookupCard": { "type": "string" }, "flowCaption": { "type": "string" },
+        "layers": { "type": "string" }, "folders": { "type": "string" },
+        "who": { "type": "string" }, "scenarioEmpty": { "type": "string" },
+        "rateLimits": { "type": "string" }, "backendSimple": { "type": "string" },
+        "backendTech": { "type": "string" }, "backendScope": { "type": "string" },
+        "services": { "type": "string" }, "errors": { "type": "string" },
+        "troubleshooting": { "type": "string" }, "glossary": { "type": "string" },
+        "confirm": { "type": "string" }
+      }
+    },
+    "architecture": {
+      "type": "object", "required": ["layers", "tree"], "additionalProperties": true,
+      "properties": { "layers": { "type": "array" }, "tree": { "type": "array" } }
+    },
+    "home": { "type": "object", "additionalProperties": true },
+    "roles": { "type": "object", "additionalProperties": true },
+    "dataSources": { "type": "array" },
+    "confirm": { "type": "array" },
+    "navigation": { "$ref": "navigation.schema.json" }
+  }
+}

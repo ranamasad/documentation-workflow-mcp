@@ -1,0 +1,161 @@
+[
+  {
+    "key": "foundation",
+    "page": "foundation",
+    "collection": "",
+    "title": "Overview, navigation and shared documentation",
+    "data": {
+      "schemaVersion": 2,
+      "meta": {
+        "appName": "Northstar handbook",
+        "subtitle": "Independent documentation",
+        "createdBy": "Editor",
+        "updatedBy": "Editor",
+        "updated": "2026-10-16"
+      },
+      "icons": {
+        "book": "https://api.iconify.design/lucide/book.svg"
+      },
+      "startPage": "handbook",
+      "sections": [
+        {
+          "id": "handbook",
+          "collection": "operating-guides",
+          "layout": "list",
+          "sort": {
+            "field": "value.stock",
+            "direction": "asc"
+          },
+          "defaultExpanded": true,
+          "blocks": [
+            {
+              "id": "welcome",
+              "type": "paragraph",
+              "text": "Welcome"
+            }
+          ]
+        }
+      ],
+      "navigation": {
+        "tabs": [
+          {
+            "id": "handbook",
+            "label": "Northstar handbook",
+            "overviewLabel": "Overview",
+            "icon": "book",
+            "href": "#/",
+            "order": 0,
+            "visible": true,
+            "expanded": true
+          }
+        ],
+        "groups": [
+          {
+            "id": "main",
+            "tab": "handbook",
+            "label": "Topics",
+            "icon": "book",
+            "order": 0,
+            "visible": true,
+            "expanded": false
+          }
+        ],
+        "entries": [
+          {
+            "id": "beta",
+            "tab": "handbook",
+            "group": "main",
+            "key": "handbook/beta",
+            "label": "Beta title",
+            "href": "#/handbook/beta",
+            "order": 0,
+            "visible": true,
+            "searchable": true
+          },
+          {
+            "id": "alpha",
+            "tab": "handbook",
+            "group": "main",
+            "key": "handbook/alpha",
+            "label": "Alpha title",
+            "href": "#/handbook/alpha",
+            "order": 1,
+            "visible": true,
+            "searchable": true
+          },
+          {
+            "id": "zero",
+            "tab": "handbook",
+            "group": "main",
+            "key": "handbook/zero",
+            "label": "Zero title",
+            "href": "#/handbook/zero",
+            "order": 2,
+            "visible": true,
+            "searchable": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "key": "handbook/beta",
+    "page": "handbook",
+    "collection": "operating-guides",
+    "title": "Beta title",
+    "data": {
+      "schemaVersion": 2,
+      "id": "beta",
+      "value": {
+        "name": "Not the title",
+        "stock": 3,
+        "tags": [
+          "blue",
+          "small"
+        ],
+        "nested": {
+          "active": true
+        }
+      },
+      "order": 0,
+      "blocks": []
+    }
+  },
+  {
+    "key": "handbook/alpha",
+    "page": "handbook",
+    "collection": "operating-guides",
+    "title": "Alpha title",
+    "data": {
+      "schemaVersion": 2,
+      "id": "alpha",
+      "value": {
+        "stock": 3,
+        "tags": [],
+        "nested": {
+          "active": false
+        }
+      },
+      "order": 1,
+      "blocks": []
+    }
+  },
+  {
+    "key": "handbook/zero",
+    "page": "handbook",
+    "collection": "operating-guides",
+    "title": "Zero title",
+    "data": {
+      "schemaVersion": 2,
+      "id": "zero",
+      "value": {
+        "stock": 0,
+        "tags": [
+          "green"
+        ]
+      },
+      "order": 2,
+      "blocks": []
+    }
+  }
+]

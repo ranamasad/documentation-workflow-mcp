@@ -1,0 +1,15 @@
+[
+  {
+    "key": "backend/sample-backend-integration", "page": "backend", "collection": "backend.integrations", "title": "Example upstream status integration",
+    "data": {
+      "id": "sample-backend-integration", "name": "Example upstream status integration",
+      "simple": "Reads a generic upstream status.", "tech": "Documents boundaries without credentials or live access.",
+      "files": "`src/upstream-status.ts`", "auth": "Approved local credential handling; never copy values.",
+      "environment": "Upstream configuration names only.", "logging": "Sanitized status and timing.",
+      "jobs": "On-demand observation.", "lookup": "Read the approved upstream response metadata.",
+      "mappings": [["status", "upstream.state", "Example integration adapter"]],
+      "normal": "The upstream reports a known state.", "abnormal": "The upstream cannot answer.",
+      "escalation": "Contact the approved service owner with sanitized evidence."
+    }
+  }
+]

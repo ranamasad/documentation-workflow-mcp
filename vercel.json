@@ -1,0 +1,33 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "buildCommand": "npm run build",
+  "outputDirectory": "public",
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "Content-Security-Policy", "value": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'none'" },
+        { "key": "Referrer-Policy", "value": "no-referrer" },
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "X-Content-Type-Options", "value": "nosniff" }
+      ]
+    }
+  ],
+  "functions": {
+    "api/mcp.ts": {
+      "maxDuration": 300,
+      "includeFiles": "{contract,contract-v3,vendor,public}/**"
+    },
+    "api/health.ts": {
+      "maxDuration": 10,
+      "includeFiles": "{contract,contract-v3,vendor,public}/**"
+    }
+  },
+  "rewrites": [
+    { "source": "/v3/:asset", "destination": "/api/mcp?websiteAsset=/v3/:asset" },
+    { "source": "/api/documentation-v3", "destination": "/api/mcp?documentationV3=1" },
+    { "source": "/mcp", "destination": "/api/mcp" },
+    { "source": "/health", "destination": "/api/health" }
+  ]
+}

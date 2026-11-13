@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Documentation Workflow MCP</title>
+  <meta name="description" content="A self-hosted Documentation Workflow MCP server.">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2">
+  <link rel="icon" type="image/png" sizes="64x64" href="/favicon-64.png?v=2">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2">
+  <style>
+    :root { color-scheme: light dark; --bg: #f8fafc; --card: #ffffff; --text: #0f172a; --muted: #475569; --line: #e2e8f0; --accent: #0f766e; }
+    @media (prefers-color-scheme: dark) { :root { --bg: #0b1120; --card: #111827; --text: #e5e7eb; --muted: #94a3b8; --line: #1f2937; --accent: #5eead4; } }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif; }
+    main { max-width: 760px; margin: 0 auto; padding: 48px 16px 64px; }
+    h1 { font-size: 28px; line-height: 1.25; margin: 0 0 8px; }
+    h2 { font-size: 18px; margin: 0 0 8px; }
+    p, li { color: var(--muted); }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px 20px; margin-top: 16px; }
+    code, pre { font: 14px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; }
+    pre { background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 12px; overflow-x: auto; color: var(--text); }
+    a { color: var(--accent); }
+    .brand { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+    .brand img { width: 40px; height: 40px; }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="brand"><img src="/favicon.svg?v=2" alt=""><strong>Documentation Workflow MCP</strong></div>
+    <h1>This is a self-hosted documentation MCP server.</h1>
+    <p>Your AI (Claude, Copilot, Cursor and others) connects here to write, check, publish, promote and roll back documentation in your own Firebase.</p>
+
+    <div class="card">
+      <h2>Connect your AI</h2>
+      <p>Use this server's address followed by <code>/mcp</code>, with the server's bearer token:</p>
+      <pre>URL:    https://&lt;this-server&gt;/mcp
+Header: Authorization: Bearer &lt;MCP_BEARER_TOKEN&gt;</pre>
+      <p>Ask the person who runs this server for the token. Never share it in chat or commit it to a repository.</p>
+    </div>
+
+    <div class="card">
+      <h2>Check it is running</h2>
+      <p><a href="/health">/health</a> shows the server version, how many projects it has and whether encryption is set up.</p>
+    </div>
+
+    <div class="card">
+      <h2>Set it up yourself</h2>
+      <p>The README in the source repository explains installation, projects, reader access, encryption, Orbit and moving projects to or from the hosted service.</p>
+    </div>
+  </main>
+</body>
+</html>

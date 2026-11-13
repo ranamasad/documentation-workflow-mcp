@@ -1,0 +1,24 @@
+{
+  "servers": {
+    "documentation-workflow": {
+      "type": "http",
+      "url": "https://YOUR-MCP-DOMAIN/mcp",
+      "headers": {
+        "Authorization": "Bearer ${env:DOCUMENTATION_WORKFLOW_MCP_TOKEN}"
+      }
+    },
+    "firebase": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "firebase-tools@15.34.0",
+        "mcp",
+        "--only",
+        "firestore",
+        "--dir",
+        "${env:FIREBASE_CUSTOMER_APP_DIR}"
+      ]
+    }
+  }
+}

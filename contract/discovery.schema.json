@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://documentation-mcp.example/contract/v1/discovery.schema.json",
+  "title": "Immutable manifest-addressed discovery catalog v1",
+  "description": "documentationDiscovery/{manifestHash} root, shards/{0000} children. SHA256 sorted manifest identity, sequential shard IDs, counts, payload UTF-8 sizes, record coverage, hash checks and adjacency ordinals are enforced by the copied discovery module.",
+  "oneOf": [{ "$ref": "#/$defs/root" }, { "$ref": "#/$defs/shard" }],
+  "$defs": {
+    "hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "key": { "type": "string", "pattern": "^(?:foundation|[a-z-]+/[a-zA-Z0-9_-]{1,120})$" },
+    "root": {
+      "type": "object", "required": ["schema", "manifestHash", "count", "shards"], "additionalProperties": false,
+      "properties": {
+        "schema": { "const": 1 }, "manifestHash": { "$ref": "#/$defs/hash" },
+        "count": { "type": "integer", "minimum": 1, "maximum": 2000 },
+        "shards": {
+          "type": "array", "minItems": 1, "maxItems": 100,
+          "items": {
+            "type": "object", "required": ["id", "hash", "count"], "additionalProperties": false,
+            "properties": {
+              "id": { "type": "string", "pattern": "^\\d{4}$" },
+              "hash": { "$ref": "#/$defs/hash" },
+              "count": { "type": "integer", "minimum": 1, "maximum": 40 }
+            }
+          }
+        }
+      }
+    },
+    "shard": {
+      "type": "object", "required": ["schema", "manifestHash", "index", "payload"], "additionalProperties": false,
+      "properties": {
+        "schema": { "const": 1 }, "manifestHash": { "$ref": "#/$defs/hash" },
+        "index": { "type": "integer", "minimum": 0, "maximum": 99 },
+        "payload": { "type": "string", "minLength": 1, "contentMediaType": "application/json", "contentSchema": { "type": "array", "minItems": 1, "maxItems": 40, "items": { "$ref": "#/$defs/encodedEntry" } } }
+      }
+    },
+    "encodedEntry": {
+      "type": "object",
+      "required": ["key", "revision", "title", "page", "summary", "terms", "termsTruncated", "outgoing", "incoming"],
+      "additionalProperties": false,
+      "properties": {
+        "key": { "$ref": "#/$defs/key" }, "revision": { "$ref": "#/$defs/hash" },
+        "title": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "page": { "type": "string" }, "summary": { "type": "string", "maxLength": 320 },
+        "terms": { "type": "array", "maxItems": 128, "items": { "type": "string" } },
+        "termsTruncated": { "type": "boolean" },
+        "outgoing": { "$ref": "#/$defs/adjacency" }, "incoming": { "$ref": "#/$defs/adjacency" }
+      }
+    },
+    "adjacency": {
+      "type": "array",
+      "items": { "oneOf": [{ "type": "integer", "minimum": 0, "maximum": 1999 }, { "$ref": "#/$defs/key" }] }
+    }
+  }
+}

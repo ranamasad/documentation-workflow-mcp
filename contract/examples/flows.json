@@ -1,0 +1,16 @@
+[
+  {
+    "key": "flows/sample-flow", "page": "flows", "collection": "flows", "title": "Read example status",
+    "data": {
+      "id": "sample-flow", "name": "Read example status", "short": "One read-only request.",
+      "simple": "The application asks the service for its status.", "tech": "A GET request returns JSON without changing data.",
+      "diagram": "sequenceDiagram\n  Client->>Service: GET /example/status\n  Service-->>Client: 200 JSON",
+      "steps": [{
+        "title": "Request status", "simple": "Open the status screen.", "app": "[[app:sample-app]]",
+        "via": "HTTPS to the example service.", "fails": "Access or connectivity failure.", "db": "Read-only; no mutation.",
+        "triggers": "An illustrative observation.", "request": {"method": "GET", "path": "/example/status"}, "response": {"status": "ready"}
+      }],
+      "related": ["sample-feature"]
+    }
+  }
+]

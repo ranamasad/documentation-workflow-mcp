@@ -1,0 +1,10 @@
+[
+  {
+    "key": "config/sample-config", "page": "config", "collection": "config", "title": "EXAMPLE_STATUS_ENABLED",
+    "data": {
+      "id": "sample-config", "name": "EXAMPLE_STATUS_ENABLED", "source": "Example runtime configuration",
+      "controls": "Whether the example status screen is shown.", "values": "`true` or `false`; illustrative only.",
+      "usedBy": "[[app:sample-app]]", "secret": false
+    }
+  }
+]

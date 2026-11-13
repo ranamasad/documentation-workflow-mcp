@@ -1,0 +1,23 @@
+{
+  "description": "Illustrative workflow. v2-content.json is a validated minimum complete snapshot. encrypted-snapshot.json is its actual encrypted transport with fresh randomness; its key was discarded, so it demonstrates structure and hashes, not a decryptable test vector. Never reuse example ciphertext or generate production keys from examples.",
+  "steps": [
+    {"call": "normalize(v1OrV2Records)", "review": "report.unmapped, report.brokenLinks, report.droppedNavigation, report.warnings; converted routes remain those produced by existing converter"},
+    {"call": "createVault(password)", "retainLocally": ["recoveryCode"], "persistEncrypted": ["vault"], "memoryOnly": ["privateKey"]},
+    {"call": "createScopeKey()", "memoryOnly": ["key"]},
+    {"call": "wrapKey(scope,key,vault.publicKey)", "persistEncrypted": ["grant"]},
+    {"call": "encryptSnapshot(normalized.records,scope,key)", "persistEncrypted": ["release", "bundles"]},
+    {"call": "unlockVault(vault,password)", "memoryOnly": ["privateKey"]},
+    {"call": "unwrapKey(scope,grant,privateKey)", "memoryOnly": ["key"]},
+    {"call": "decryptSnapshot(release,bundles,scope,key)", "result": "complete normalized v2 records including full search text"},
+    {"call": "encryptSnapshot(editedRecords,scope,key,{release,bundles})", "result": "validated unchanged groups retain exact envelopes and IDs; edited groups and manifest use fresh encryption"},
+    {"call": "encryptSnapshot(editedRecords,scope,key,{release,bundles},{version:'1.2.3',tags:['Changed'],summary:'Updated guide',operation:'apply'})", "result": "same verified bundle reuse, freshly encrypted release notes inside manifest; no plaintext metadata fields"},
+    {"call": "decryptSnapshotDetails(release,bundles,scope,key)", "result": "{records,metadata}; metadata is undefined for older snapshots"},
+    {"call": "decryptManifest(release,scope,key)", "result": "authenticated manifest with optional metadata; complete content verification still requires decryptSnapshot or decryptSnapshotDetails"},
+    {"call": "changeVaultPassword(vault,recoveryCode,newPassword,true)", "result": "same identity, grants and recovery envelope; new password envelope and old password invalid"}
+  ],
+  "scope": {
+    "projectId": "11111111-1111-4111-8111-111111111111",
+    "environment": "development",
+    "keyId": "22222222-2222-4222-8222-222222222222"
+  }
+}

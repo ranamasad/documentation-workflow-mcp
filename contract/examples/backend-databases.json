@@ -1,0 +1,16 @@
+[
+  {
+    "key": "backend/sample-backend-database", "page": "backend", "collection": "backend.databases", "title": "Example status store",
+    "data": {
+      "id": "sample-backend-database", "name": "Example status store",
+      "simple": "Holds illustrative status state.", "tech": "A generic example store, not a customer database.",
+      "access": "Approved read-only inspection.", "engine": "Illustrative relational storage",
+      "files": "`src/status-record.ts`", "identifiers": "`id` identifies the example record.",
+      "lookup": "Inspect the example record through an approved read-only tool.",
+      "columns": [["ExampleStatus.id", "string", "Illustrative identifier"], ["ExampleStatus.status", "string", "Reported state"]],
+      "mappings": [["id", "ExampleStatus.id", "Example record type"], ["status", "ExampleStatus.status", "Example record type"]],
+      "normal": "One current example state is present.", "abnormal": "The example state is missing.",
+      "escalation": "Ask the owner to investigate; do not modify records."
+    }
+  }
+]

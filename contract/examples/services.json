@@ -1,0 +1,13 @@
+[
+  {
+    "key": "services/sample-service", "page": "services", "collection": "externalServices", "title": "Example upstream service",
+    "data": {
+      "id": "sample-service", "name": "Example upstream service", "kind": "External HTTP service", "short": "Provides an illustrative status.",
+      "simple": "An example dependency.", "tech": "Access only through approved local credentials.",
+      "failure": {"simple": "Status may be unavailable.", "tech": "Return a sanitized failure; do not fabricate success."},
+      "calledBy": "The example status application.", "sent": "A generic status request.", "received": "An illustrative status.",
+      "webhooks": "None in this example.", "config": "Configuration names only; no values.",
+      "json": [{"title": "Example response", "body": {"status": "ready"}}]
+    }
+  }
+]

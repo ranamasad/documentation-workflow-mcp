@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "docs-contract://v3/grant.schema.json",
+  "title": "RSA wrapped scope content key",
+  "description": "wrappedKey is RSA-OAEP SHA-256 encryption of exactly 32 raw content-key bytes with label UTF8(canonical(scope)). recipient is SHA-256(canonical({e,kty,n})) of the recipient public RSA JWK. No raw key or private key appears in a grant.",
+  "type": "object", "additionalProperties": false,
+  "required": ["format", "scope", "recipient", "wrappedKey"],
+  "properties": {
+    "format": {"const": 3}, "scope": {"$ref": "scope.schema.json"},
+    "recipient": {"$ref": "release.schema.json#/$defs/hash"},
+    "wrappedKey": {"type": "string", "pattern": "^[A-Za-z0-9_-]+$", "oneOf": [{"minLength": 342, "maxLength": 342}, {"minLength": 512, "maxLength": 512}, {"minLength": 683, "maxLength": 683}]}
+  }
+}

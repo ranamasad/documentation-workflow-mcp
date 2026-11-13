@@ -1,0 +1,10 @@
+[
+  {
+    "key": "notifications/sample-notification", "page": "notifications", "collection": "notifications", "title": "Example status notice",
+    "data": {
+      "id": "sample-notification", "name": "Example status notice", "channel": "In-app", "when": "An illustrative status changes.",
+      "to": "An authorized example reader.", "simple": "Shows a generic status update.", "tech": "Does not contain customer identifiers.",
+      "payload": {"status": "ready"}, "notReceived": "The application may be offline or the notice may be disabled."
+    }
+  }
+]

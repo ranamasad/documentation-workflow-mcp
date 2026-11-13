@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://documentation-mcp.example/contract/v1/record.schema.json",
+  "title": "Structured documentation wire record v1",
+  "description": "Structural guide, not a substitute for vendor/documentation-model.js. That model enforces page/collection/id/key and heading/title identity, safe JSON, size/depth/node bounds, navigation and publication semantics. Additional data fields remain permitted intentionally; see renderer-grounded fixtures for useful fields.",
+  "type": "object",
+  "required": ["key", "page", "collection", "title", "data"],
+  "additionalProperties": false,
+  "properties": {
+    "key": { "type": "string", "pattern": "^(?:foundation|[a-z-]+/[a-zA-Z0-9_-]{1,120})$" },
+    "page": { "enum": ["foundation", "features", "apps", "flows", "data-model", "api", "events", "services", "errors", "notifications", "config", "troubleshooting", "faq", "glossary", "backend"] },
+    "collection": { "enum": ["", "features", "applications", "flows", "tables", "endpoints", "events", "externalServices", "errors", "notifications", "config", "troubleshooting", "faq", "glossary", "backend.services", "backend.databases", "backend.integrations", "backend.runbooks"] },
+    "title": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "data": { "type": "object", "additionalProperties": true }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "page": { "const": "foundation" } } },
+      "then": { "properties": { "key": { "const": "foundation" }, "collection": { "const": "" }, "data": { "$ref": "foundation.schema.json" } } },
+      "else": { "properties": { "key": { "pattern": "^[a-z-]+/[a-zA-Z0-9_-]{1,120}$" }, "data": { "required": ["id"], "properties": { "id": { "type": "string", "pattern": "^[a-zA-Z0-9_-]{1,120}$" } } } } }
+    },
+    {
+      "if": { "properties": { "page": { "enum": ["features", "apps", "flows", "data-model", "events", "services", "notifications", "config", "backend"] } } },
+      "then": { "properties": { "data": { "required": ["name"], "properties": { "name": { "type": "string", "minLength": 1 } } } } }
+    },
+    { "if": { "properties": { "page": { "const": "features" } } }, "then": { "properties": { "collection": { "const": "features" }, "data": { "properties": { "apps": { "type": "array" }, "services": { "type": "array" }, "endpoints": { "type": "array" }, "tables": { "type": "array" }, "events": { "type": "array" }, "config": { "type": "array" }, "dependsOn": { "type": "array" }, "json": { "type": "array" }, "rules": { "type": "array" }, "faq": { "type": "array" }, "refs": { "type": "array" }, "confirm": { "type": "array" } } } } } },
+    { "if": { "properties": { "page": { "const": "apps" } } }, "then": { "properties": { "collection": { "const": "applications" } } } },
+    { "if": { "properties": { "page": { "const": "flows" } } }, "then": { "properties": { "collection": { "const": "flows" }, "data": { "properties": { "steps": { "type": "array" }, "related": { "type": "array" } } } } } },
+    { "if": { "properties": { "page": { "const": "data-model" } } }, "then": { "properties": { "collection": { "const": "tables" }, "data": { "properties": { "fields": { "type": "array" }, "backendTables": { "type": "array" }, "apps": { "type": "array" } } } } } },
+    { "if": { "properties": { "page": { "const": "api" } } }, "then": { "properties": { "collection": { "const": "endpoints" }, "data": { "required": ["path"], "properties": { "path": { "type": "string", "minLength": 1 }, "requestFields": { "type": "array" }, "responseFields": { "type": "array" }, "errors": { "type": "array" } } } } } },
+    { "if": { "properties": { "page": { "const": "events" } } }, "then": { "properties": { "collection": { "const": "events" } } } },
+    { "if": { "properties": { "page": { "const": "services" } } }, "then": { "properties": { "collection": { "const": "externalServices" } } } },
+    { "if": { "properties": { "page": { "const": "errors" } } }, "then": { "properties": { "collection": { "const": "errors" }, "data": { "required": ["message"], "properties": { "message": { "type": "string", "minLength": 1 } } } } } },
+    { "if": { "properties": { "page": { "const": "notifications" } } }, "then": { "properties": { "collection": { "const": "notifications" } } } },
+    { "if": { "properties": { "page": { "const": "config" } } }, "then": { "properties": { "collection": { "const": "config" } } } },
+    { "if": { "properties": { "page": { "const": "troubleshooting" } } }, "then": { "properties": { "collection": { "const": "troubleshooting" }, "data": { "required": ["title"], "properties": { "title": { "type": "string", "minLength": 1 } } } } } },
+    { "if": { "properties": { "page": { "const": "faq" } } }, "then": { "properties": { "collection": { "const": "faq" }, "data": { "required": ["q"], "properties": { "q": { "type": "string", "minLength": 1 } } } } } },
+    { "if": { "properties": { "page": { "const": "glossary" } } }, "then": { "properties": { "collection": { "const": "glossary" }, "data": { "required": ["term"], "properties": { "term": { "type": "string", "minLength": 1 } } } } } },
+    { "if": { "properties": { "page": { "const": "backend" } } }, "then": { "properties": { "collection": { "enum": ["backend.services", "backend.databases", "backend.integrations", "backend.runbooks"] }, "data": { "properties": { "columns": { "type": "array" }, "mappings": { "type": "array" } } } } } }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "contentFormat": 2,
+  "recordCount": 2,
+  "records": ["foundation", "handbook/welcome"],
+  "bundles": [
+    {"id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "keys": ["foundation"]},
+    {"id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "keys": ["handbook/welcome"]}
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "docs-contract://v3/manifest.schema.json",
+  "title": "Encrypted manifest plaintext",
+  "description": "All descriptor IDs must exactly equal release.bundles in order. records preserves normalized input order, must contain foundation, and must exactly equal the union of descriptor keys without duplicates. Every supplied bundle must be listed once, and every listed bundle must be supplied once. recordCount must equal records.length and the recovered complete snapshot.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contentFormat", "recordCount", "records", "bundles"],
+  "properties": {
+    "contentFormat": {"const": 2},
+    "metadata": {
+      "description": "Optional release workflow metadata is authenticated inside the encrypted manifest, never plaintext release fields. Absent for snapshots created before this extension.",
+      "type": "object", "additionalProperties": false,
+      "required": ["version", "tags", "summary", "operation"],
+      "properties": {
+        "version": {"type": "string", "minLength": 1, "maxLength": 64, "pattern": "^[a-zA-Z0-9][a-zA-Z0-9._-]{0,63}$"},
+        "tags": {"type": "array", "minItems": 1, "maxItems": 3, "uniqueItems": true, "items": {"enum": ["New", "Changed", "Hotfix"]}},
+        "summary": {"type": "string", "minLength": 1, "maxLength": 4000, "pattern": "\\S"},
+        "operation": {"enum": ["apply", "promote", "rollback", "import"]},
+        "sourceRelease": {"$ref": "scope.schema.json#/$defs/uuid"},
+        "rollbackRelease": {"$ref": "scope.schema.json#/$defs/uuid"}
+      }
+    },
+    "recordCount": {"type": "integer", "minimum": 1, "maximum": 2000},
+    "records": {"type": "array", "minItems": 1, "maxItems": 2000, "uniqueItems": true, "contains": {"const": "foundation"}, "items": {"$ref": "#/$defs/key"}},
+    "bundles": {
+      "type": "array", "minItems": 1, "maxItems": 2000,
+      "items": {
+        "type": "object", "additionalProperties": false, "required": ["id", "keys"],
+        "properties": {
+          "id": {"$ref": "release.schema.json#/$defs/hash"},
+          "keys": {"type": "array", "minItems": 1, "maxItems": 2000, "uniqueItems": true, "items": {"$ref": "#/$defs/key"}}
+        }
+      }
+    }
+  },
+  "$defs": {"key": {"type": "string", "pattern": "^(?:foundation|[a-z][a-z0-9-]{0,63}/[a-zA-Z0-9_-]{1,120})$", "minLength": 1, "maxLength": 185}}
+}

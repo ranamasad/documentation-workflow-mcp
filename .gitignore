@@ -1,0 +1,19 @@
+node_modules/
+dist/
+.vercel/
+.env
+.env.*
+!.env.example
+coverage/
+*.log
+.DS_Store
+customer-data/
+.vercel
+.env*
+
+# Self-hosting secrets and data: never commit these
+projects.json
+secrets/
+*service-account*.json
+.mcp-data/
+*-export.json

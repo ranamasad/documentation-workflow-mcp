@@ -1,0 +1,11 @@
+[
+  {
+    "key": "errors/sample-error", "page": "errors", "collection": "errors", "title": "Example status unavailable",
+    "data": {
+      "id": "sample-error", "message": "Example status unavailable", "key": "example_unavailable", "area": "Status screen",
+      "meaning": "The example request could not complete.", "causes": "Connectivity or service availability.",
+      "tell": "Try again after connectivity is restored.", "tech": "Inspect sanitized request status, not customer payloads.",
+      "escalate": true, "features": ["sample-feature"]
+    }
+  }
+]

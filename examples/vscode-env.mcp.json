@@ -1,0 +1,11 @@
+{
+  "servers": {
+    "documentation-workflow": {
+      "type": "http",
+      "url": "https://YOUR-MCP-DOMAIN/mcp",
+      "headers": {
+        "Authorization": "Bearer ${env:DOCUMENTATION_WORKFLOW_MCP_TOKEN}"
+      }
+    }
+  }
+}

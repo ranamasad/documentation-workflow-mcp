@@ -1,0 +1,37 @@
+{
+  "name": "documentation-workflow-mcp",
+  "version": "0.4.0",
+  "private": true,
+  "type": "module",
+  "description": "Self-hostable MCP server that lets AI assistants write, check, publish, promote and roll back encrypted documentation in your own Firebase.",
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "scripts": {
+    "build": "tsc && node scripts/copy-assets.mjs",
+    "check": "tsc --noEmit",
+    "start": "node --env-file-if-exists=.env dist/src/local.js",
+    "start:stdio": "node --env-file-if-exists=.env dist/src/stdio.js",
+    "start:v3": "node dist/src/v3-stdio.js",
+    "test:v3": "npm run build && node --test dist/tests/v3-client.test.js",
+    "test": "npm run build && node --test dist/tests/*.test.js",
+    "verify:firestore": "npm run build && cd \"$DOCS_SITE\" && npx firebase emulators:exec --only firestore --project demo-mcp-reader \"node $INIT_CWD/scripts/verify-firestore-emulator.mjs\"",
+    "sync:contract": "node scripts/sync-contract.mjs",
+    "cli": "node --env-file-if-exists=.env dist/src/cli.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/node": "2.1.1",
+    "@modelcontextprotocol/server": "2.3.1",
+    "@supabase/ssr": "0.8.0",
+    "@supabase/supabase-js": "2.95.3",
+    "@vercel/functions": "3.9.11",
+    "jose": "6.2.12",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/client": "2.3.1",
+    "@types/node": "^20.19.0",
+    "typescript": "5.9.3"
+  },
+  "license": "AGPL-3.0-only"
+}

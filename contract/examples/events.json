@@ -1,0 +1,12 @@
+[
+  {
+    "key": "events/sample-event", "page": "events", "collection": "events", "title": "Example status observed",
+    "data": {
+      "id": "sample-event", "name": "Example status observed", "kind": "Observation event", "short": "Records that a generic status was observed.",
+      "simple": "An example background observation.", "tech": "Contains only a generic example identifier.",
+      "trigger": "An approved status observation.", "schedule": "On demand.", "sender": "The example status application.",
+      "handler": "`observeStatus`", "retries": "Follow the owner-approved policy.", "onFailure": "Record sanitized failure metadata.",
+      "payload": {"id": "example-1", "status": "ready"}
+    }
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "key": "api/sample-api", "page": "api", "collection": "endpoints", "title": "GET /example/status",
+    "data": {
+      "id": "sample-api", "method": "GET", "path": "/example/status", "app": "sample-app",
+      "auth": "Authorized example reader", "base": "Example service", "timeout": "Owner-defined; verify locally.",
+      "simple": "Reads the illustrative service status.", "tech": "Returns JSON and performs no write.",
+      "url": "https://service.example.invalid/example/status", "handler": "`readStatus`", "callers": "The example status screen.",
+      "headers": "`Accept: application/json`", "query": "None.", "retries": "Retry only according to the approved client policy.",
+      "rateLimit": "Confirm with the service owner.", "stored": "Not persisted by this example.",
+      "backendConfirmed": "Illustrative implementation evidence only.", "server": "`GET /example/status` → `readStatus`",
+      "confirmedDeployment": "Use approved environment configuration.", "codeDate": "2026-01-01",
+      "sources": "`src/status-handler.ts`", "serverHandler": "`readStatus`", "serverAuth": "Example authorization middleware.",
+      "serverValidation": "Reject unsupported query parameters.", "reads": "Example status state.", "writes": "None.",
+      "upstream": "No upstream call in this example.", "serverErrors": "A sanitized service-unavailable response.",
+      "serverLimits": "Owner-defined request limits.", "logs": "Request metadata only; no credentials.",
+      "howToCheck": "Compare response time and status using an authorized local client.",
+      "serverAlternatives": "No alternative implementation documented.",
+      "requestType": "HTTP metadata", "request": {"method": "GET", "path": "/example/status"}, "requestFields": [],
+      "response": {"id": "example-1", "status": "ready"},
+      "responseFields": [["status", "string", true, "Reported state", "ready", "Example service", "Not persisted"]],
+      "errors": [{"status": 503, "when": "The example service cannot answer.", "app": "Show a retryable unavailable message.", "json": {"error": "example_unavailable"}}],
+      "confirm": "Confirm the approved timeout before production use."
+    }
+  }
+]

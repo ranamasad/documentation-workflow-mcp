@@ -1,0 +1,70 @@
+{
+  "schema": 1,
+  "contractVersion": "2.0.0",
+  "synchronizedAt": "2026-10-22T11:13:49.784Z",
+  "source": {
+    "project": "documentation website",
+    "directoryArgument": "<website-root>",
+    "authority": "Current website assets/js schema, model, discovery, engine and renderer (v1 and v2 dynamic content)."
+  },
+  "procedure": "node scripts/sync-contract.mjs <website-root>",
+  "policy": "Deliberate local snapshot update only. Review source diffs, update schemas/examples if needed, run contract tests. No automatic refresh, network, customer article data, credentials, or Firebase access.",
+  "files": [
+    {
+      "source": "assets/js/documentation-schema.js",
+      "snapshot": "vendor/documentation-schema.js",
+      "sha256": "bd113e4c72d71784b74eec8ab510b324262228a9d5de40aa3fea4361497b0009",
+      "bytes": 17938,
+      "role": "semantic authority"
+    },
+    {
+      "source": "assets/js/documentation-model.js",
+      "snapshot": "vendor/documentation-model.js",
+      "sha256": "b76839939b4948d91e0d9773a2470beb8e0bc0db862071b38ab09f59e2944692",
+      "bytes": 24033,
+      "role": "semantic authority"
+    },
+    {
+      "source": "assets/js/documentation-discovery.js",
+      "snapshot": "vendor/documentation-discovery.js",
+      "sha256": "d16ff9d682efd24f23610a2714a11150a5cd73f336e68ab8ff719e1b62a58204",
+      "bytes": 12074,
+      "role": "semantic authority"
+    },
+    {
+      "source": "assets/js/documentation-engine.js",
+      "snapshot": "vendor/documentation-engine.js",
+      "sha256": "6c0bfefbacd5533e628ee370a5acbddebd93cc1e964bc05cb4ca2df5c26a67f7",
+      "bytes": 18761,
+      "role": "semantic authority"
+    },
+    {
+      "source": "assets/js/documentation-renderer.js",
+      "snapshot": "vendor/documentation-renderer.js",
+      "sha256": "940de72f21c05116937fb3575134c5e84179c42008d3de4dfe62803168e1c5fe",
+      "bytes": 29762,
+      "role": "semantic authority"
+    },
+    {
+      "source": "assets/js/documentation-convert.js",
+      "snapshot": "vendor/documentation-convert.js",
+      "sha256": "102eacedc4253ea8f137dd7ff5e2b8fbbafaeb4eb311d41cd0f79ff91d20620d",
+      "bytes": 46643,
+      "role": "semantic authority"
+    },
+    {
+      "source": "assets/js/documentation-v3.js",
+      "snapshot": "vendor/documentation-v3.js",
+      "sha256": "77a5e28947659ec4005b909dc8ac2056a4cf281c693ef409b78c6ad369a0822a",
+      "bytes": 27199,
+      "role": "semantic authority"
+    },
+    {
+      "source": "assets/js/app.js",
+      "snapshot": null,
+      "sha256": "88874577f1be6322c34ac09d6edf759822f32c28fd5b27933e4786c75f217a34",
+      "bytes": 45216,
+      "role": "renderer field reference (not copied)"
+    }
+  ]
+}

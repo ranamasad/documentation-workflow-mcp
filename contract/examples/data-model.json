@@ -1,0 +1,12 @@
+[
+  {
+    "key": "data-model/sample-table", "page": "data-model", "collection": "tables", "title": "ExampleStatus",
+    "data": {
+      "id": "sample-table", "name": "ExampleStatus", "store": "Example local store", "simpleShort": "An illustrative service state.",
+      "short": "Read-only status snapshot.", "simple": "Holds the last observed example state.", "tech": "An example record, not a customer table.",
+      "file": "`src/status-record.ts`", "pk": "id", "kind": "Example object", "lifetime": "Replaced by the next observation.",
+      "fields": [["id", "string", true, "Illustrative identifier", "example-1"], ["status", "string", true, "Reported state", "ready"]],
+      "relations": "No foreign keys in this example.", "backendTables": [], "apps": ["sample-app"], "codeDate": "2026-01-01"
+    }
+  }
+]

@@ -1,0 +1,90 @@
+{
+  "version": 2,
+  "readers": [
+    "end-users",
+    "support",
+    "testers",
+    "product-owners",
+    "administrators",
+    "developers",
+    "internal"
+  ],
+  "blockTypes": [
+    "heading",
+    "paragraph",
+    "list",
+    "table",
+    "callout",
+    "code",
+    "diagram",
+    "image",
+    "link",
+    "cards",
+    "details",
+    "json",
+    "fields"
+  ],
+  "layouts": [
+    "cards",
+    "table",
+    "list"
+  ],
+  "fieldTypes": [
+    "text",
+    "number",
+    "boolean",
+    "date",
+    "json",
+    "link"
+  ],
+  "reservedSectionIds": [
+    "foundation",
+    "analytics",
+    "reader-analytics",
+    "article-analytics",
+    "admin-users",
+    "admin-teams",
+    "admin-documentation"
+  ],
+  "forbiddenKeys": [
+    "__proto__",
+    "prototype",
+    "constructor"
+  ],
+  "patterns": {
+    "sectionId": "^[a-z][a-z0-9-]{0,63}$",
+    "articleId": "^[a-zA-Z0-9_-]{1,120}$",
+    "blockId": "^[a-zA-Z0-9_-]{1,120}$",
+    "collection": "^[a-zA-Z][a-zA-Z0-9_-]{0,119}$",
+    "fieldSegment": "^[a-zA-Z_][a-zA-Z0-9_-]*$"
+  },
+  "defaults": {
+    "order": 0,
+    "visible": true
+  },
+  "limits": {
+    "documentBytes": 700000,
+    "stringLength": 500000,
+    "jsonDepth": 32,
+    "jsonNodes": 100000,
+    "sections": 40,
+    "navigationTabs": 40,
+    "navigationGroups": 200,
+    "navigationEntries": 2500,
+    "manifestRecords": 2000,
+    "fields": 256,
+    "blocksPerSibling": 500,
+    "blocksTotal": 2000,
+    "detailsDepth": 8,
+    "cards": 200,
+    "listItems": 2000,
+    "tableColumns": 256,
+    "tableRows": 2000,
+    "icons": 128,
+    "titleLength": 256,
+    "labelLength": 256,
+    "urlLength": 2048,
+    "fieldPathLength": 256,
+    "codeLanguageLength": 40
+  }
+}

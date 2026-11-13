@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "docs-contract://v3/vault.schema.json",
+  "title": "Password and raw-recovery protected RSA identity",
+  "description": "RSA-OAEP SHA-256 keys, generated at 3072 bits; accept modulus byte lengths 256,384,512 and exponent AQAB. fingerprint = SHA-256(canonical({e,kty,n})), RFC7638 projection, lowercase hex. Each ciphertext seals the same canonical private JWK under AES-256-GCM with a fresh random 12-byte IV and 128-bit tag. Password key is PBKDF2 SHA-256 with random 16-byte salt and 600000..2000000 iterations. Recovery code is 32 random bytes, base64url encoded, used directly as an AES key, never as a password. AAD is canonical({format:3,purpose:'password',fingerprint,kdf}) or canonical({format:3,purpose:'recovery',fingerprint}). Private keys returned by the API are nonextractable. changeVaultPassword preserves publicKey, fingerprint and recovery unchanged.",
+  "type": "object", "additionalProperties": false,
+  "required": ["format", "publicKey", "fingerprint", "password", "recovery"],
+  "properties": {
+    "format": {"const": 3},
+    "publicKey": {"$ref": "#/$defs/publicKey"},
+    "fingerprint": {"$ref": "release.schema.json#/$defs/hash"},
+    "password": {
+      "type": "object", "additionalProperties": false, "required": ["iv", "ciphertext", "kdf"],
+      "properties": {
+        "iv": {"$ref": "#/$defs/iv"}, "ciphertext": {"$ref": "#/$defs/sealed"},
+        "kdf": {
+          "type": "object", "additionalProperties": false, "required": ["name", "hash", "iterations", "salt"],
+          "properties": {
+            "name": {"const": "PBKDF2"}, "hash": {"const": "SHA-256"},
+            "iterations": {"type": "integer", "minimum": 600000, "maximum": 2000000},
+            "salt": {"type": "string", "pattern": "^[A-Za-z0-9_-]{22}$", "minLength": 22, "maxLength": 22}
+          }
+        }
+      }
+    },
+    "recovery": {
+      "type": "object", "additionalProperties": false, "required": ["iv", "ciphertext"],
+      "properties": {"iv": {"$ref": "#/$defs/iv"}, "ciphertext": {"$ref": "#/$defs/sealed"}}
+    }
+  },
+  "$defs": {
+    "iv": {"type": "string", "pattern": "^[A-Za-z0-9_-]{16}$", "minLength": 16, "maxLength": 16},
+    "sealed": {"type": "string", "pattern": "^[A-Za-z0-9_-]+$", "minLength": 22, "maxLength": 21867},
+    "publicKey": {
+      "type": "object", "additionalProperties": false, "required": ["kty", "n", "e"],
+      "properties": {
+        "kty": {"const": "RSA"},
+        "n": {"type": "string", "pattern": "^[A-Za-z0-9_-]+$", "oneOf": [{"minLength": 342, "maxLength": 342}, {"minLength": 512, "maxLength": 512}, {"minLength": 683, "maxLength": 683}]},
+        "e": {"const": "AQAB"}, "alg": {"const": "RSA-OAEP-256"}, "ext": {"const": true},
+        "key_ops": {"type": "array", "maxItems": 2, "uniqueItems": true, "items": {"enum": ["encrypt", "wrapKey"]}}
+      }
+    }
+  }
+}

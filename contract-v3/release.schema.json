@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "docs-contract://v3/release.schema.json",
+  "title": "Encrypted release",
+  "description": "manifest.scope and each bundle scope must exactly equal release.scope and the externally expected scope. bundles is the ordered list of descriptor IDs in the encrypted manifest, with 1..recordCount unique IDs. recordCount must equal the encrypted manifest and recovered complete v2 snapshot.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["format", "scope", "manifest", "bundles", "recordCount"],
+  "properties": {
+    "format": {"const": 3},
+    "scope": {"$ref": "scope.schema.json"},
+    "manifest": {"$ref": "envelope.schema.json"},
+    "bundles": {"type": "array", "minItems": 1, "maxItems": 2000, "uniqueItems": true, "items": {"$ref": "#/$defs/hash"}},
+    "recordCount": {"type": "integer", "minimum": 1, "maximum": 2000}
+  },
+  "$defs": {"hash": {"type": "string", "pattern": "^[0-9a-f]{64}$", "minLength": 64, "maxLength": 64}}
+}

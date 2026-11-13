@@ -1,0 +1,15 @@
+[
+  {
+    "key": "apps/sample-app", "page": "apps", "collection": "applications", "title": "Example status application",
+    "data": {
+      "id": "sample-app", "name": "Example status application", "group": "Example tools", "kind": "Web application",
+      "short": "Shows a generic status.", "simple": "Helps readers inspect the example service.", "tech": "Calls a read-only JSON endpoint.",
+      "stack": "TypeScript and an HTTP client.", "folder": "`src/status`", "starts": "From the example application entry point.",
+      "responsibilities": "Display status and observation time.", "exposes": "A status screen.", "calls": "The example status interface.",
+      "data": "Reads an illustrative status record.", "config": "The documented service base name; no secret values.",
+      "tests": "Status response rendering.", "endpoints": ["sample-api"],
+      "downImpact": {"simple": "The example status cannot be displayed.", "tech": "The service itself may remain available."},
+      "confirm": "Confirm supported client versions."
+    }
+  }
+]

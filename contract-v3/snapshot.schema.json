@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "docs-contract://v3/snapshot.schema.json",
+  "title": "encryptSnapshot result and optional previous snapshot",
+  "type": "object", "additionalProperties": false, "required": ["release", "bundles"],
+  "properties": {
+    "release": {"$ref": "release.schema.json"},
+    "bundles": {"type": "array", "minItems": 1, "maxItems": 2000, "items": {"$ref": "bundle.schema.json"}}
+  }
+}

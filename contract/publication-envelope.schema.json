@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://documentation-mcp.example/contract/v1/publication-envelope.schema.json",
+  "title": "Immutable documentation revision envelope v1",
+  "description": "Stored at documentationRevisions/{sha256(payload)} and identical environment-scoped mirrors. payload is the ORIGINAL serialized wire-record JSON string, never an embedded map or sorted reconstruction. Parse and validate record.schema.json plus the semantic model locally; hash original UTF-8 bytes.",
+  "type": "object",
+  "required": ["schema", "key", "title", "payload"],
+  "additionalProperties": false,
+  "properties": {
+    "schema": { "const": 1 },
+    "key": { "type": "string", "pattern": "^(?:foundation|[a-z-]+/[a-zA-Z0-9_-]{1,120})$" },
+    "title": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "payload": { "type": "string", "minLength": 1, "contentMediaType": "application/json", "contentSchema": { "$ref": "record.schema.json" } }
+  }
+}

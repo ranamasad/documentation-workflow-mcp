@@ -1,0 +1,1183 @@
+[
+  {
+    "key": "foundation",
+    "page": "foundation",
+    "collection": "",
+    "title": "Overview, navigation and shared documentation",
+    "data": {
+      "meta": {
+        "appName": "Example Knowledge Base",
+        "subtitle": "Illustrative support and engineering guides",
+        "createdBy": "Documentation team",
+        "updatedBy": "Documentation team",
+        "updated": "2026-01-01"
+      },
+      "copy": {
+        "hero": "Understand the example system and find approved support checks.",
+        "features": "Guides to user-visible capabilities.",
+        "flows": "Follow a request through the system.",
+        "lookup": "Find the origin of a displayed field.",
+        "lookupCard": "Trace a field to its documented source.",
+        "flowCaption": "Illustrative request lifecycle.",
+        "layers": "Select a layer for its responsibilities.",
+        "folders": "Select a folder to read its purpose.",
+        "who": "Authorized example users",
+        "scenarioEmpty": "No documented scenario in this category.",
+        "rateLimits": "Confirm limits with the service owner; no assumed limit.",
+        "backendSimple": "Read-only backend investigation guidance.",
+        "backendTech": "Use approved local tools and least-privilege access.",
+        "backendScope": "Illustrative source evidence only.",
+        "services": "External service responsibilities and failure handling.",
+        "errors": "Match the exact displayed error message.",
+        "troubleshooting": "Start with non-destructive checks.",
+        "glossary": "Definitions used throughout these guides.",
+        "confirm": "Items that still require owner confirmation."
+      },
+      "home": {
+        "simple": "This generic example contains no customer information.",
+        "tech": "Articles are immutable JSON records selected by a release manifest.",
+        "quickLinks": [
+          {
+            "title": "Architecture",
+            "desc": "Explore system boundaries.",
+            "href": "#/architecture"
+          }
+        ],
+        "stack": [
+          {
+            "area": "Example runtime",
+            "name": "Node.js",
+            "desc": "Runs the illustrative request handler."
+          }
+        ],
+        "mainTasks": "- Find a guide.\n- Follow an approved read-only check."
+      },
+      "architecture": {
+        "simple": "A client requests information from an example service.",
+        "tech": "Presentation and service boundaries are separate.",
+        "simpleDiagram": "flowchart LR\n  Client --> Service",
+        "simpleDiagramCaption": "Example components.",
+        "impact": [
+          {
+            "part": "Example service",
+            "effect": "The request cannot finish.",
+            "escalate": true
+          }
+        ],
+        "diagram": "flowchart LR\n  UI --> API\n  API --> Store",
+        "diagramCaption": "Illustrative technical architecture.",
+        "layers": [
+          {
+            "name": "Presentation",
+            "short": "Displays results",
+            "desc": "Shows the response without owning storage.",
+            "folders": "`src/ui`",
+            "mayCall": "The approved service interface.",
+            "mayNotCall": "The database directly.",
+            "features": []
+          }
+        ],
+        "lifecycleText": "Validate a request, read the example store, and return a response.",
+        "lifecycle": "sequenceDiagram\n  Client->>Service: Request\n  Service-->>Client: Response",
+        "lifecycleCaption": "Example lifecycle.",
+        "deployment": "Use environment-specific configuration; never include credentials in documentation.",
+        "environments": [
+          [
+            "Development",
+            "Example config",
+            "Not applicable",
+            "Not applicable",
+            "development",
+            "example-local",
+            "Development",
+            "Internal"
+          ]
+        ],
+        "deployDiagram": "flowchart LR\n  Development --> Beta --> Production",
+        "deployCaption": "Illustrative environment progression.",
+        "tree": [
+          {
+            "name": "src",
+            "desc": "Example application source.",
+            "open": true,
+            "children": [
+              {
+                "name": "ui",
+                "desc": "Presentation components."
+              }
+            ]
+          }
+        ]
+      },
+      "roles": {
+        "simple": "Readers can view permitted documentation.",
+        "tech": "Publishing requires an authenticated authorized administrator.",
+        "sections": [
+          {
+            "id": "permissions",
+            "title": "Example permissions",
+            "simple": "Request access through the approved process.",
+            "tech": "Authorization remains with the local system.",
+            "table": {
+              "headers": [
+                "Role",
+                "Access"
+              ],
+              "rows": [
+                [
+                  "Reader",
+                  "Permitted environment"
+                ],
+                [
+                  "Publisher",
+                  "Approved release actions"
+                ]
+              ]
+            }
+          }
+        ]
+      },
+      "dataSources": [
+        {
+          "id": "sample-source",
+          "name": "Example status",
+          "aka": "Health indicator",
+          "simple": "A status returned by the example service.",
+          "tech": "Read from the documented status response.",
+          "check": "Compare the time of the response before escalating."
+        }
+      ],
+      "confirm": [
+        {
+          "area": "Example deployment",
+          "text": "Confirm the operational owner.",
+          "why": "No organization-specific owner is included."
+        }
+      ],
+      "applicationsIntro": "Applications and their responsibilities.",
+      "dataModel": {
+        "simple": "Example records hold only illustrative values.",
+        "tech": "See the field definitions for storage types.",
+        "diagram": "erDiagram\n  SAMPLE {\n    string id PK\n  }",
+        "diagramCaption": "Example entity."
+      },
+      "apiIntro": {
+        "simple": "Example service interfaces.",
+        "tech": "Request and response shapes are illustrative."
+      },
+      "eventsIntro": {
+        "simple": "Example background activity.",
+        "tech": "Observe status without executing jobs."
+      },
+      "notificationsIntro": {
+        "simple": "Example user notifications.",
+        "tech": "Payloads contain illustrative values only."
+      },
+      "configIntro": {
+        "simple": "Configuration names, not credentials.",
+        "tech": "Never document secret values."
+      },
+      "backend": {
+        "services": [],
+        "databases": [],
+        "integrations": [],
+        "runbooks": []
+      },
+      "backendRepositoryFacts": [
+        {
+          "repository": "example-service",
+          "commit": "illustrative-not-a-real-commit",
+          "codeDate": "2026-01-01"
+        }
+      ],
+      "navigation": {
+        "tabs": [
+          {
+            "id": "home",
+            "label": "Home",
+            "overviewLabel": "Overview",
+            "icon": "home",
+            "href": "#/",
+            "order": 0,
+            "visible": true
+          },
+          {
+            "id": "architecture",
+            "label": "Architecture",
+            "overviewLabel": "Architecture overview",
+            "icon": "layers",
+            "href": "#/architecture",
+            "order": 1,
+            "visible": true
+          },
+          {
+            "id": "roles",
+            "label": "Roles",
+            "overviewLabel": "Access overview",
+            "icon": "users",
+            "href": "#/roles",
+            "order": 2,
+            "visible": true
+          },
+          {
+            "id": "flows",
+            "label": "Flows",
+            "overviewLabel": "Flow overview",
+            "icon": "flow",
+            "href": "#/flows",
+            "order": 3,
+            "visible": true
+          },
+          {
+            "id": "backend",
+            "label": "Backend",
+            "overviewLabel": "Backend overview",
+            "icon": "database",
+            "href": "#/backend",
+            "order": 4,
+            "visible": true
+          },
+          {
+            "id": "features",
+            "label": "features",
+            "overviewLabel": "features overview",
+            "icon": "book",
+            "href": "#/features",
+            "order": 5,
+            "visible": true
+          },
+          {
+            "id": "apps",
+            "label": "apps",
+            "overviewLabel": "apps overview",
+            "icon": "book",
+            "href": "#/apps",
+            "order": 6,
+            "visible": true
+          },
+          {
+            "id": "data-model",
+            "label": "data-model",
+            "overviewLabel": "data-model overview",
+            "icon": "book",
+            "href": "#/data-model",
+            "order": 7,
+            "visible": true
+          },
+          {
+            "id": "api",
+            "label": "api",
+            "overviewLabel": "api overview",
+            "icon": "book",
+            "href": "#/api",
+            "order": 8,
+            "visible": true
+          },
+          {
+            "id": "events",
+            "label": "events",
+            "overviewLabel": "events overview",
+            "icon": "book",
+            "href": "#/events",
+            "order": 9,
+            "visible": true
+          },
+          {
+            "id": "services",
+            "label": "services",
+            "overviewLabel": "services overview",
+            "icon": "book",
+            "href": "#/services",
+            "order": 10,
+            "visible": true
+          },
+          {
+            "id": "errors",
+            "label": "errors",
+            "overviewLabel": "errors overview",
+            "icon": "book",
+            "href": "#/errors",
+            "order": 11,
+            "visible": true
+          },
+          {
+            "id": "notifications",
+            "label": "notifications",
+            "overviewLabel": "notifications overview",
+            "icon": "book",
+            "href": "#/notifications",
+            "order": 12,
+            "visible": true
+          },
+          {
+            "id": "config",
+            "label": "config",
+            "overviewLabel": "config overview",
+            "icon": "book",
+            "href": "#/config",
+            "order": 13,
+            "visible": true
+          },
+          {
+            "id": "troubleshooting",
+            "label": "troubleshooting",
+            "overviewLabel": "troubleshooting overview",
+            "icon": "book",
+            "href": "#/troubleshooting",
+            "order": 14,
+            "visible": true
+          },
+          {
+            "id": "faq",
+            "label": "faq",
+            "overviewLabel": "faq overview",
+            "icon": "book",
+            "href": "#/faq",
+            "order": 15,
+            "visible": true
+          },
+          {
+            "id": "glossary",
+            "label": "glossary",
+            "overviewLabel": "glossary overview",
+            "icon": "book",
+            "href": "#/glossary",
+            "order": 16,
+            "visible": true
+          }
+        ],
+        "groups": [],
+        "entries": [
+          {
+            "id": "field-lookup",
+            "tab": "flows",
+            "group": "",
+            "key": "foundation",
+            "label": "Field lookup",
+            "href": "#/flows/lookup",
+            "order": 0,
+            "visible": true,
+            "searchable": true
+          },
+          {
+            "id": "backend-services",
+            "tab": "backend",
+            "group": "",
+            "key": "foundation",
+            "label": "Services",
+            "href": "#/backend/services",
+            "order": 0,
+            "visible": true,
+            "searchable": false
+          },
+          {
+            "id": "backend-databases",
+            "tab": "backend",
+            "group": "",
+            "key": "foundation",
+            "label": "Databases",
+            "href": "#/backend/databases",
+            "order": 1,
+            "visible": true,
+            "searchable": false
+          },
+          {
+            "id": "backend-integrations",
+            "tab": "backend",
+            "group": "",
+            "key": "foundation",
+            "label": "Integrations",
+            "href": "#/backend/integrations",
+            "order": 2,
+            "visible": true,
+            "searchable": false
+          },
+          {
+            "id": "backend-runbooks",
+            "tab": "backend",
+            "group": "",
+            "key": "foundation",
+            "label": "Runbooks",
+            "href": "#/backend/runbooks",
+            "order": 3,
+            "visible": true,
+            "searchable": false
+          },
+          {
+            "id": "example-0",
+            "tab": "features",
+            "group": "",
+            "key": "features/sample-feature",
+            "label": "View example status",
+            "href": "#/features/sample-feature",
+            "order": 10,
+            "visible": true,
+            "searchable": true
+          },
+          {
+            "id": "example-1",
+            "tab": "apps",
+            "group": "",
+            "key": "apps/sample-app",
+            "label": "Example status application",
+            "href": "#/apps/sample-app",
+            "order": 11,
+            "visible": true,
+            "searchable": true
+          },
+          {
+            "id": "example-2",
+            "tab": "flows",
+            "group": "",
+            "key": "flows/sample-flow",
+            "label": "Read example status",
+            "href": "#/flows/sample-flow",
+            "order": 12,
+            "visible": true,
+            "searchable": true
+          },
+          {
+            "id": "example-3",
+            "tab": "data-model",
+            "group": "",
+            "key": "data-model/sample-table",
+            "label": "ExampleStatus",
+            "href": "#/data-model/sample-table",
+            "order": 13,
+            "visible": true,
+            "searchable": true
+          },
+          {
+            "id": "example-4",
+            "tab": "api",
+            "group": "",
+            "key": "api/sample-api",
+            "label": "GET /example/status",
+            "href": "#/api/sample-api",
+            "order": 14,
+            "visible": true,
+            "searchable": true
+          },
+          {
+            "id": "example-5",
+            "tab": "events",
+            "group": "",
+            "key": "events/sample-event",
+            "label": "Example status observed",
+            "href": "#/events/sample-event",
+            "order": 15,
+            "visible": true,
+            "searchable": true
+          },
+          {
+            "id": "example-6",
+            "tab": "services",
+            "group": "",
+            "key": "services/sample-service",
+            "label": "Example upstream service",
+            "href": "#/services/sample-service",
+            "order": 16,
+            "visible": true,
+            "searchable": true
+          },
+          {
+            "id": "example-7",
+            "tab": "errors",
+            "group": "",
+            "key": "errors/sample-error",
+            "label": "Example status unavailable",
+            "href": "#/errors/sample-error",
+            "order": 17,
+            "visible": true,
+            "searchable": true
+          },
+          {
+            "id": "example-8",
+            "tab": "notifications",
+            "group": "",
+            "key": "notifications/sample-notification",
+            "label": "Example status notice",
+            "href": "#/notifications/sample-notification",
+            "order": 18,
+            "visible": true,
+            "searchable": true
+          },
+          {
+            "id": "example-9",
+            "tab": "config",
+            "group": "",
+            "key": "config/sample-config",
+            "label": "EXAMPLE_STATUS_ENABLED",
+            "href": "#/config/sample-config",
+            "order": 19,
+            "visible": true,
+            "searchable": true
+          },
+          {
+            "id": "example-10",
+            "tab": "troubleshooting",
+            "group": "",
+            "key": "troubleshooting/sample-troubleshooting",
+            "label": "Check an unavailable example status",
+            "href": "#/troubleshooting/sample-troubleshooting",
+            "order": 20,
+            "visible": true,
+            "searchable": true
+          },
+          {
+            "id": "example-11",
+            "tab": "faq",
+            "group": "",
+            "key": "faq/sample-faq",
+            "label": "Does checking status modify data?",
+            "href": "#/faq/sample-faq",
+            "order": 21,
+            "visible": true,
+            "searchable": true
+          },
+          {
+            "id": "example-12",
+            "tab": "glossary",
+            "group": "",
+            "key": "glossary/sample-term",
+            "label": "Status observation",
+            "href": "#/glossary/sample-term",
+            "order": 22,
+            "visible": true,
+            "searchable": true
+          },
+          {
+            "id": "example-13",
+            "tab": "backend",
+            "group": "",
+            "key": "backend/sample-backend-service",
+            "label": "Example backend status service",
+            "href": "#/backend/sample-backend-service",
+            "order": 23,
+            "visible": true,
+            "searchable": true
+          },
+          {
+            "id": "example-14",
+            "tab": "backend",
+            "group": "",
+            "key": "backend/sample-backend-database",
+            "label": "Example status store",
+            "href": "#/backend/sample-backend-database",
+            "order": 24,
+            "visible": true,
+            "searchable": true
+          },
+          {
+            "id": "example-15",
+            "tab": "backend",
+            "group": "",
+            "key": "backend/sample-backend-integration",
+            "label": "Example upstream status integration",
+            "href": "#/backend/sample-backend-integration",
+            "order": 25,
+            "visible": true,
+            "searchable": true
+          },
+          {
+            "id": "example-16",
+            "tab": "backend",
+            "group": "",
+            "key": "backend/sample-backend-runbook",
+            "label": "Inspect example status safely",
+            "href": "#/backend/sample-backend-runbook",
+            "order": 26,
+            "visible": true,
+            "searchable": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "key": "features/sample-feature",
+    "page": "features",
+    "collection": "features",
+    "title": "View example status",
+    "data": {
+      "id": "sample-feature",
+      "name": "View example status",
+      "summary": "Read a generic service status.",
+      "who": "Authorized example readers",
+      "apps": [
+        "sample-app"
+      ],
+      "services": [
+        "sample-service"
+      ],
+      "what": {
+        "simple": "Shows whether the example service is responding.",
+        "tech": "Calls the documented read-only status endpoint."
+      },
+      "where": "Open the example status screen.",
+      "steps": "1. Open the status screen.\n2. Read the status and observation time.",
+      "underneath": {
+        "simple": "The screen requests the current status.",
+        "tech": "A single read-only request returns JSON.",
+        "diagram": "flowchart LR\n  Screen --> Service",
+        "caption": "Example status request."
+      },
+      "endpoints": [
+        "sample-api"
+      ],
+      "tables": [
+        "sample-table"
+      ],
+      "events": [
+        "sample-event"
+      ],
+      "config": [
+        "sample-config"
+      ],
+      "json": [
+        {
+          "title": "Status response",
+          "note": "Illustrative values only.",
+          "example": {
+            "id": "example-1",
+            "status": "ready"
+          },
+          "exampleTitle": "Example response",
+          "fields": [
+            [
+              "status",
+              "string",
+              true,
+              "Reported service state",
+              "ready",
+              "Example service",
+              "Not persisted"
+            ]
+          ]
+        }
+      ],
+      "tablesNote": "Only example status records are read.",
+      "eventsNote": "An illustrative observation event may be recorded.",
+      "rules": [
+        [
+          "Read-only access",
+          "Example service authorization middleware"
+        ]
+      ],
+      "scenarios": {
+        "ok": [
+          {
+            "title": "Status available",
+            "did": "Opened the screen.",
+            "happens": "The request succeeds.",
+            "sees": "Ready.",
+            "support": "No action required.",
+            "tech": {
+              "path": "src/status-handler.ts",
+              "status": 200,
+              "logged": "Request metadata only.",
+              "db": "Unchanged.",
+              "json": {
+                "status": "ready"
+              },
+              "jsonTitle": "Response"
+            }
+          }
+        ],
+        "input": [],
+        "access": [],
+        "failure": [],
+        "retry": [],
+        "race": [],
+        "unusual": [],
+        "roles": []
+      },
+      "faq": [
+        {
+          "q": "Does refreshing change stored data?",
+          "a": "No; the example request is read-only."
+        }
+      ],
+      "troubleshooting": "Confirm connectivity and the observation time.",
+      "supportFix": "Retry once after restoring connectivity.",
+      "escalate": "Escalate repeated service errors with sanitized evidence.",
+      "configNote": "Only configuration names are documented.",
+      "dependsOn": [],
+      "tests": "The status handler has a read-only response test.",
+      "issues": "Illustrative documentation; verify the deployed implementation.",
+      "confirm": [
+        "Confirm the approved operational owner."
+      ],
+      "refs": [
+        [
+          "src/status-handler.ts",
+          "readStatus",
+          "Returns the example status"
+        ]
+      ]
+    }
+  },
+  {
+    "key": "apps/sample-app",
+    "page": "apps",
+    "collection": "applications",
+    "title": "Example status application",
+    "data": {
+      "id": "sample-app",
+      "name": "Example status application",
+      "group": "Example tools",
+      "kind": "Web application",
+      "short": "Shows a generic status.",
+      "simple": "Helps readers inspect the example service.",
+      "tech": "Calls a read-only JSON endpoint.",
+      "stack": "TypeScript and an HTTP client.",
+      "folder": "`src/status`",
+      "starts": "From the example application entry point.",
+      "responsibilities": "Display status and observation time.",
+      "exposes": "A status screen.",
+      "calls": "The example status interface.",
+      "data": "Reads an illustrative status record.",
+      "config": "The documented service base name; no secret values.",
+      "tests": "Status response rendering.",
+      "endpoints": [
+        "sample-api"
+      ],
+      "downImpact": {
+        "simple": "The example status cannot be displayed.",
+        "tech": "The service itself may remain available."
+      },
+      "confirm": "Confirm supported client versions."
+    }
+  },
+  {
+    "key": "flows/sample-flow",
+    "page": "flows",
+    "collection": "flows",
+    "title": "Read example status",
+    "data": {
+      "id": "sample-flow",
+      "name": "Read example status",
+      "short": "One read-only request.",
+      "simple": "The application asks the service for its status.",
+      "tech": "A GET request returns JSON without changing data.",
+      "diagram": "sequenceDiagram\n  Client->>Service: GET /example/status\n  Service-->>Client: 200 JSON",
+      "steps": [
+        {
+          "title": "Request status",
+          "simple": "Open the status screen.",
+          "app": "[[app:sample-app]]",
+          "via": "HTTPS to the example service.",
+          "fails": "Access or connectivity failure.",
+          "db": "Read-only; no mutation.",
+          "triggers": "An illustrative observation.",
+          "request": {
+            "method": "GET",
+            "path": "/example/status"
+          },
+          "response": {
+            "status": "ready"
+          }
+        }
+      ],
+      "related": [
+        "sample-feature"
+      ]
+    }
+  },
+  {
+    "key": "data-model/sample-table",
+    "page": "data-model",
+    "collection": "tables",
+    "title": "ExampleStatus",
+    "data": {
+      "id": "sample-table",
+      "name": "ExampleStatus",
+      "store": "Example local store",
+      "simpleShort": "An illustrative service state.",
+      "short": "Read-only status snapshot.",
+      "simple": "Holds the last observed example state.",
+      "tech": "An example record, not a customer table.",
+      "file": "`src/status-record.ts`",
+      "pk": "id",
+      "kind": "Example object",
+      "lifetime": "Replaced by the next observation.",
+      "fields": [
+        [
+          "id",
+          "string",
+          true,
+          "Illustrative identifier",
+          "example-1"
+        ],
+        [
+          "status",
+          "string",
+          true,
+          "Reported state",
+          "ready"
+        ]
+      ],
+      "relations": "No foreign keys in this example.",
+      "backendTables": [],
+      "apps": [
+        "sample-app"
+      ],
+      "codeDate": "2026-01-01"
+    }
+  },
+  {
+    "key": "api/sample-api",
+    "page": "api",
+    "collection": "endpoints",
+    "title": "GET /example/status",
+    "data": {
+      "id": "sample-api",
+      "method": "GET",
+      "path": "/example/status",
+      "app": "sample-app",
+      "auth": "Authorized example reader",
+      "base": "Example service",
+      "timeout": "Owner-defined; verify locally.",
+      "simple": "Reads the illustrative service status.",
+      "tech": "Returns JSON and performs no write.",
+      "url": "https://service.example.invalid/example/status",
+      "handler": "`readStatus`",
+      "callers": "The example status screen.",
+      "headers": "`Accept: application/json`",
+      "query": "None.",
+      "retries": "Retry only according to the approved client policy.",
+      "rateLimit": "Confirm with the service owner.",
+      "stored": "Not persisted by this example.",
+      "backendConfirmed": "Illustrative implementation evidence only.",
+      "server": "`GET /example/status` → `readStatus`",
+      "confirmedDeployment": "Use approved environment configuration.",
+      "codeDate": "2026-01-01",
+      "sources": "`src/status-handler.ts`",
+      "serverHandler": "`readStatus`",
+      "serverAuth": "Example authorization middleware.",
+      "serverValidation": "Reject unsupported query parameters.",
+      "reads": "Example status state.",
+      "writes": "None.",
+      "upstream": "No upstream call in this example.",
+      "serverErrors": "A sanitized service-unavailable response.",
+      "serverLimits": "Owner-defined request limits.",
+      "logs": "Request metadata only; no credentials.",
+      "howToCheck": "Compare response time and status using an authorized local client.",
+      "serverAlternatives": "No alternative implementation documented.",
+      "requestType": "HTTP metadata",
+      "request": {
+        "method": "GET",
+        "path": "/example/status"
+      },
+      "requestFields": [],
+      "response": {
+        "id": "example-1",
+        "status": "ready"
+      },
+      "responseFields": [
+        [
+          "status",
+          "string",
+          true,
+          "Reported state",
+          "ready",
+          "Example service",
+          "Not persisted"
+        ]
+      ],
+      "errors": [
+        {
+          "status": 503,
+          "when": "The example service cannot answer.",
+          "app": "Show a retryable unavailable message.",
+          "json": {
+            "error": "example_unavailable"
+          }
+        }
+      ],
+      "confirm": "Confirm the approved timeout before production use."
+    }
+  },
+  {
+    "key": "events/sample-event",
+    "page": "events",
+    "collection": "events",
+    "title": "Example status observed",
+    "data": {
+      "id": "sample-event",
+      "name": "Example status observed",
+      "kind": "Observation event",
+      "short": "Records that a generic status was observed.",
+      "simple": "An example background observation.",
+      "tech": "Contains only a generic example identifier.",
+      "trigger": "An approved status observation.",
+      "schedule": "On demand.",
+      "sender": "The example status application.",
+      "handler": "`observeStatus`",
+      "retries": "Follow the owner-approved policy.",
+      "onFailure": "Record sanitized failure metadata.",
+      "payload": {
+        "id": "example-1",
+        "status": "ready"
+      }
+    }
+  },
+  {
+    "key": "services/sample-service",
+    "page": "services",
+    "collection": "externalServices",
+    "title": "Example upstream service",
+    "data": {
+      "id": "sample-service",
+      "name": "Example upstream service",
+      "kind": "External HTTP service",
+      "short": "Provides an illustrative status.",
+      "simple": "An example dependency.",
+      "tech": "Access only through approved local credentials.",
+      "failure": {
+        "simple": "Status may be unavailable.",
+        "tech": "Return a sanitized failure; do not fabricate success."
+      },
+      "calledBy": "The example status application.",
+      "sent": "A generic status request.",
+      "received": "An illustrative status.",
+      "webhooks": "None in this example.",
+      "config": "Configuration names only; no values.",
+      "json": [
+        {
+          "title": "Example response",
+          "body": {
+            "status": "ready"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "key": "errors/sample-error",
+    "page": "errors",
+    "collection": "errors",
+    "title": "Example status unavailable",
+    "data": {
+      "id": "sample-error",
+      "message": "Example status unavailable",
+      "key": "example_unavailable",
+      "area": "Status screen",
+      "meaning": "The example request could not complete.",
+      "causes": "Connectivity or service availability.",
+      "tell": "Try again after connectivity is restored.",
+      "tech": "Inspect sanitized request status, not customer payloads.",
+      "escalate": true,
+      "features": [
+        "sample-feature"
+      ]
+    }
+  },
+  {
+    "key": "notifications/sample-notification",
+    "page": "notifications",
+    "collection": "notifications",
+    "title": "Example status notice",
+    "data": {
+      "id": "sample-notification",
+      "name": "Example status notice",
+      "channel": "In-app",
+      "when": "An illustrative status changes.",
+      "to": "An authorized example reader.",
+      "simple": "Shows a generic status update.",
+      "tech": "Does not contain customer identifiers.",
+      "payload": {
+        "status": "ready"
+      },
+      "notReceived": "The application may be offline or the notice may be disabled."
+    }
+  },
+  {
+    "key": "config/sample-config",
+    "page": "config",
+    "collection": "config",
+    "title": "EXAMPLE_STATUS_ENABLED",
+    "data": {
+      "id": "sample-config",
+      "name": "EXAMPLE_STATUS_ENABLED",
+      "source": "Example runtime configuration",
+      "controls": "Whether the example status screen is shown.",
+      "values": "`true` or `false`; illustrative only.",
+      "usedBy": "[[app:sample-app]]",
+      "secret": false
+    }
+  },
+  {
+    "key": "troubleshooting/sample-troubleshooting",
+    "page": "troubleshooting",
+    "collection": "troubleshooting",
+    "title": "Check an unavailable example status",
+    "data": {
+      "id": "sample-troubleshooting",
+      "title": "Check an unavailable example status",
+      "group": "Connectivity",
+      "simple": "Confirm connectivity, then retry once.",
+      "tech": "Record the response status and time; omit customer content and credentials.",
+      "related": [
+        "sample-feature"
+      ]
+    }
+  },
+  {
+    "key": "faq/sample-faq",
+    "page": "faq",
+    "collection": "faq",
+    "title": "Does checking status modify data?",
+    "data": {
+      "id": "sample-faq",
+      "q": "Does checking status modify data?",
+      "group": "Example status",
+      "a": "No; this illustrative operation is read-only.",
+      "tech": "The endpoint performs no storage mutation."
+    }
+  },
+  {
+    "key": "glossary/sample-term",
+    "page": "glossary",
+    "collection": "glossary",
+    "title": "Status observation",
+    "data": {
+      "id": "sample-term",
+      "term": "Status observation",
+      "simple": "A report of the example service state at a point in time.",
+      "tech": "Not a guarantee of later availability."
+    }
+  },
+  {
+    "key": "backend/sample-backend-service",
+    "page": "backend",
+    "collection": "backend.services",
+    "title": "Example backend status service",
+    "data": {
+      "id": "sample-backend-service",
+      "name": "Example backend status service",
+      "simple": "Provides a generic read-only status.",
+      "tech": "An illustrative handler with no customer data.",
+      "access": "Approved read-only access only.",
+      "codeDate": "2026-01-01",
+      "steps": "1. Select the approved environment.\n2. Read service health metadata.\n3. Record sanitized observations.",
+      "files": "`src/status-handler.ts`",
+      "engine": "Node.js",
+      "environment": "`EXAMPLE_STATUS_ENABLED` (name only).",
+      "deployment": "Owner-approved example runtime.",
+      "auth": "Example authorization middleware.",
+      "logging": "Sanitized request metadata.",
+      "jobs": "No jobs required by this example.",
+      "identifiers": "`example-1` is an illustrative ID.",
+      "lookup": "Read status through the approved interface.",
+      "columns": [
+        [
+          "ExampleStatus.status",
+          "string",
+          "Reported illustrative state"
+        ]
+      ],
+      "mappings": [
+        [
+          "status",
+          "ExampleStatus.status",
+          "Example handler response"
+        ]
+      ],
+      "normal": "Status is ready.",
+      "abnormal": "Status is unavailable or stale.",
+      "escalation": "Raise repeated failures with sanitized evidence."
+    }
+  },
+  {
+    "key": "backend/sample-backend-database",
+    "page": "backend",
+    "collection": "backend.databases",
+    "title": "Example status store",
+    "data": {
+      "id": "sample-backend-database",
+      "name": "Example status store",
+      "simple": "Holds illustrative status state.",
+      "tech": "A generic example store, not a customer database.",
+      "access": "Approved read-only inspection.",
+      "engine": "Illustrative relational storage",
+      "files": "`src/status-record.ts`",
+      "identifiers": "`id` identifies the example record.",
+      "lookup": "Inspect the example record through an approved read-only tool.",
+      "columns": [
+        [
+          "ExampleStatus.id",
+          "string",
+          "Illustrative identifier"
+        ],
+        [
+          "ExampleStatus.status",
+          "string",
+          "Reported state"
+        ]
+      ],
+      "mappings": [
+        [
+          "id",
+          "ExampleStatus.id",
+          "Example record type"
+        ],
+        [
+          "status",
+          "ExampleStatus.status",
+          "Example record type"
+        ]
+      ],
+      "normal": "One current example state is present.",
+      "abnormal": "The example state is missing.",
+      "escalation": "Ask the owner to investigate; do not modify records."
+    }
+  },
+  {
+    "key": "backend/sample-backend-integration",
+    "page": "backend",
+    "collection": "backend.integrations",
+    "title": "Example upstream status integration",
+    "data": {
+      "id": "sample-backend-integration",
+      "name": "Example upstream status integration",
+      "simple": "Reads a generic upstream status.",
+      "tech": "Documents boundaries without credentials or live access.",
+      "files": "`src/upstream-status.ts`",
+      "auth": "Approved local credential handling; never copy values.",
+      "environment": "Upstream configuration names only.",
+      "logging": "Sanitized status and timing.",
+      "jobs": "On-demand observation.",
+      "lookup": "Read the approved upstream response metadata.",
+      "mappings": [
+        [
+          "status",
+          "upstream.state",
+          "Example integration adapter"
+        ]
+      ],
+      "normal": "The upstream reports a known state.",
+      "abnormal": "The upstream cannot answer.",
+      "escalation": "Contact the approved service owner with sanitized evidence."
+    }
+  },
+  {
+    "key": "backend/sample-backend-runbook",
+    "page": "backend",
+    "collection": "backend.runbooks",
+    "title": "Inspect example status safely",
+    "data": {
+      "id": "sample-backend-runbook",
+      "name": "Inspect example status safely",
+      "simple": "A non-destructive example investigation.",
+      "tech": "No database writes or publish actions.",
+      "access": "Approved environment-scoped read access.",
+      "steps": "1. Confirm the environment and authorization.\n2. Read health metadata.\n3. Compare observation times.\n4. Escalate with sanitized evidence.",
+      "files": "`runbooks/example-status.md`",
+      "lookup": "Use the approved local read-only interface.",
+      "normal": "Recent ready status.",
+      "abnormal": "Missing, stale, or unavailable status.",
+      "escalation": "Stop and contact the approved owner; never attempt an undocumented repair."
+    }
+  }
+]

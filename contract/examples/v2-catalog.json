@@ -1,0 +1,161 @@
+[
+  {
+    "key": "foundation",
+    "page": "foundation",
+    "collection": "",
+    "title": "Overview, navigation and shared documentation",
+    "data": {
+      "schemaVersion": 2,
+      "meta": {
+        "appName": "Harbor catalog",
+        "subtitle": "Independent documentation",
+        "createdBy": "Editor",
+        "updatedBy": "Editor",
+        "updated": "2026-10-16"
+      },
+      "icons": {
+        "book": "https://api.iconify.design/lucide/book.svg"
+      },
+      "startPage": "catalog2",
+      "sections": [
+        {
+          "id": "catalog2",
+          "collection": "product-stock",
+          "layout": "cards",
+          "sort": {
+            "field": "value.stock",
+            "direction": "asc"
+          },
+          "defaultExpanded": true,
+          "blocks": [
+            {
+              "id": "welcome",
+              "type": "paragraph",
+              "text": "Welcome"
+            }
+          ]
+        }
+      ],
+      "navigation": {
+        "tabs": [
+          {
+            "id": "catalog2",
+            "label": "Harbor catalog",
+            "overviewLabel": "Overview",
+            "icon": "book",
+            "href": "#/",
+            "order": 0,
+            "visible": true,
+            "expanded": true
+          }
+        ],
+        "groups": [
+          {
+            "id": "main",
+            "tab": "catalog2",
+            "label": "Topics",
+            "icon": "book",
+            "order": 0,
+            "visible": true,
+            "expanded": false
+          }
+        ],
+        "entries": [
+          {
+            "id": "beta",
+            "tab": "catalog2",
+            "group": "main",
+            "key": "catalog2/beta",
+            "label": "Beta title",
+            "href": "#/catalog2/beta",
+            "order": 0,
+            "visible": true,
+            "searchable": true
+          },
+          {
+            "id": "alpha",
+            "tab": "catalog2",
+            "group": "main",
+            "key": "catalog2/alpha",
+            "label": "Alpha title",
+            "href": "#/catalog2/alpha",
+            "order": 1,
+            "visible": true,
+            "searchable": true
+          },
+          {
+            "id": "zero",
+            "tab": "catalog2",
+            "group": "main",
+            "key": "catalog2/zero",
+            "label": "Zero title",
+            "href": "#/catalog2/zero",
+            "order": 2,
+            "visible": true,
+            "searchable": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "key": "catalog2/beta",
+    "page": "catalog2",
+    "collection": "product-stock",
+    "title": "Beta title",
+    "data": {
+      "schemaVersion": 2,
+      "id": "beta",
+      "value": {
+        "name": "Not the title",
+        "stock": 3,
+        "tags": [
+          "blue",
+          "small"
+        ],
+        "nested": {
+          "active": true
+        }
+      },
+      "order": 0,
+      "blocks": []
+    }
+  },
+  {
+    "key": "catalog2/alpha",
+    "page": "catalog2",
+    "collection": "product-stock",
+    "title": "Alpha title",
+    "data": {
+      "schemaVersion": 2,
+      "id": "alpha",
+      "value": {
+        "stock": 3,
+        "tags": [],
+        "nested": {
+          "active": false
+        }
+      },
+      "order": 1,
+      "blocks": []
+    }
+  },
+  {
+    "key": "catalog2/zero",
+    "page": "catalog2",
+    "collection": "product-stock",
+    "title": "Zero title",
+    "data": {
+      "schemaVersion": 2,
+      "id": "zero",
+      "value": {
+        "stock": 0,
+        "tags": [
+          "green"
+        ]
+      },
+      "order": 2,
+      "blocks": []
+    }
+  }
+]

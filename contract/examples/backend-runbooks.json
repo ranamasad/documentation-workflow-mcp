@@ -1,0 +1,14 @@
+[
+  {
+    "key": "backend/sample-backend-runbook", "page": "backend", "collection": "backend.runbooks", "title": "Inspect example status safely",
+    "data": {
+      "id": "sample-backend-runbook", "name": "Inspect example status safely",
+      "simple": "A non-destructive example investigation.", "tech": "No database writes or publish actions.",
+      "access": "Approved environment-scoped read access.",
+      "steps": "1. Confirm the environment and authorization.\n2. Read health metadata.\n3. Compare observation times.\n4. Escalate with sanitized evidence.",
+      "files": "`runbooks/example-status.md`", "lookup": "Use the approved local read-only interface.",
+      "normal": "Recent ready status.", "abnormal": "Missing, stale, or unavailable status.",
+      "escalation": "Stop and contact the approved owner; never attempt an undocumented repair."
+    }
+  }
+]
